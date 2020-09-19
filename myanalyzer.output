@@ -1,0 +1,4515 @@
+Terminals unused in grammar
+
+    KW_CONST
+    KW_FOR
+    KW_BREAK
+    KW_CONTINUE
+    OP_EXP
+    KW_NULL
+
+
+State 35 conflicts: 1 shift/reduce
+State 165 conflicts: 5 reduce/reduce
+State 166 conflicts: 5 reduce/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: decl_list KW_FUNCTION KW_START DELIM_RIGHT_PARANTHESIS parameter_decl_list_main DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET
+
+    2 body: body statements
+    3     | statements
+
+    4 statements: KW_VAR var_decl_body
+    5           | IDENT OP_ASSIGN expr DELIM_SEMICOLON
+    6           | expr DELIM_SEMICOLON
+    7           | KW_WHILE expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+    8           | if_statement
+    9           | epilogue
+
+   10 if_statement: KW_IF expr body KW_ELSE DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   11             | KW_IF expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+
+   12 epilogue: KW_RETURN DELIM_SEMICOLON
+   13         | KW_RETURN expr DELIM_SEMICOLON
+
+   14 decl_list: decl_list decl
+   15          | decl
+
+   16 parameter_decl_list_main: %empty
+   17                         | parameter_decl_init_main DELIM_COMMA parameter_decl_init_main
+   18                         | parameter_decl_init_main
+
+   19 parameter_decl_init_main: parameter_decl_id_main DELIM_COLON type_spec_main
+
+   20 parameter_decl_id_main: IDENT
+   21                       | IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+
+   22 type_spec_main: KW_NUMBER
+   23               | KW_STRING
+
+   24 parameter_decl_list: %empty
+   25                    | parameter_decl_list DELIM_COMMA parameter_decl_init
+   26                    | parameter_decl_init
+
+   27 parameter_decl_init: parameter_decl_id DELIM_COLON type_spec
+
+   28 parameter_decl_id: IDENT
+   29                  | IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+
+   30 decl: KW_VAR var_decl_body
+   31     | KW_FUNCTION const_decl_body
+
+   32 const_decl_body: const_decl_list DELIM_COLON type_spec DELIM_SEMICOLON
+   33                | const_decl_init
+
+   34 const_decl_list: const_decl_list DELIM_COMMA const_decl_init
+   35                | const_decl_init
+
+   36 const_decl_init: const_decl_id OP_ASSIGN const_rule
+   37                | const_rule
+
+   38 const_rule: expr
+   39           | const_decl_id OP_ASSIGN DELIM_RIGHT_PARANTHESIS parameter_decl_list DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+
+   40 const_decl_id: IDENT
+   41              | IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   42              | IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+
+   43 var_decl_body: var_decl_list DELIM_COLON type_spec DELIM_SEMICOLON
+
+   44 var_decl_list: var_decl_list DELIM_COMMA var_decl_init
+   45              | var_decl_init
+
+   46 var_decl_init: var_decl_id
+   47              | var_decl_id OP_ASSIGN expr
+
+   48 var_decl_id: IDENT
+   49            | IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   50            | IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+
+   51 type_spec: KW_NUMBER
+   52          | KW_BOOLEAN
+   53          | KW_STRING
+   54          | KW_VOID
+
+   55 expr: NUMBER
+   56     | IDENT
+   57     | STRING
+   58     | IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | BOOLEAN_TRUE
+   64     | BOOLEAN_FALSE
+   65     | expr OP_MUL expr
+   66     | expr OP_DIV expr
+   67     | expr OP_MOD expr
+   68     | expr OP_ADD expr
+   69     | expr OP_SUB expr
+   70     | OP_ADD expr
+   71     | OP_SUB expr
+   72     | OP_NOT expr
+   73     | expr OP_EQUAL expr
+   74     | expr OP_NOT_EQUAL expr
+   75     | expr OP_GREATER_THAN expr
+   76     | expr OP_GREATER_EQUAL_THAN expr
+   77     | expr OP_LESS_EQUAL_THAN expr
+   78     | expr OP_AND expr
+   79     | expr OP_OR expr
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    IDENT <crepr> (258) 5 20 21 28 29 40 41 42 48 49 50 56 58 60 61 62
+    STRING <crepr> (259) 57
+    NUMBER <crepr> (260) 55
+    KW_NUMBER (261) 22 51
+    KW_BOOLEAN (262) 52
+    KW_STRING (263) 23 53
+    KW_VOID (264) 54
+    KW_VAR (265) 4 30
+    KW_CONST (266)
+    KW_IF (267) 10 11
+    KW_ELSE (268) 10
+    KW_FOR (269)
+    KW_WHILE (270) 7
+    KW_FUNCTION (271) 1 31
+    KW_BREAK (272)
+    KW_CONTINUE (273)
+    OP_NOT (274) 72
+    OP_AND (275) 78
+    OP_OR (276) 79
+    OP_EXP (277)
+    KW_RETURN (278) 12 13
+    KW_NULL (279)
+    KW_START (280) 1
+    BOOLEAN_TRUE (281) 63
+    BOOLEAN_FALSE (282) 64
+    OP_ASSIGN (283) 5 36 39 47
+    DELIM_SEMICOLON (284) 5 6 7 10 11 12 13 32 39 43
+    DELIM_COMMA (285) 17 25 34 44 61
+    DELIM_CURLY_RIGHT_BRACKET (286) 1 7 10 11 39
+    DELIM_CURLY_LEFT_BRACKET (287) 1 7 10 11 39
+    DELIM_COLON (288) 1 19 27 32 39 43
+    DELIM_RIGHT_BRACKET (289) 21 29 41 42 49 50 58
+    DELIM_LEFT_BRACKET (290) 21 29 41 42 49 50 58
+    DELIM_RIGHT_PARANTHESIS (291) 1 39 59 60 61 62
+    DELIM_LEFT_PARANTHESIS (292) 1 39 59 60 61 62
+    PREFIX (293)
+    OP_MUL (294) 65
+    OP_DIV (295) 66
+    OP_MOD (296) 67
+    OP_ADD (297) 68 70
+    OP_SUB (298) 69 71
+    OP_EQUAL (299) 73
+    OP_NOT_EQUAL (300) 74
+    OP_GREATER_THAN (301) 75
+    OP_GREATER_EQUAL_THAN (302) 76
+    OP_LESS_EQUAL_THAN (303) 39 77
+
+
+Nonterminals, with rules where they appear
+
+    $accept (49)
+        on left: 0
+    program (50)
+        on left: 1
+        on right: 0
+    body <crepr> (51)
+        on left: 2 3
+        on right: 1 2 7 10 11 39
+    statements <crepr> (52)
+        on left: 4 5 6 7 8 9
+        on right: 2 3
+    if_statement <crepr> (53)
+        on left: 10 11
+        on right: 8
+    epilogue <crepr> (54)
+        on left: 12 13
+        on right: 9
+    decl_list <crepr> (55)
+        on left: 14 15
+        on right: 1 14
+    parameter_decl_list_main <crepr> (56)
+        on left: 16 17 18
+        on right: 1
+    parameter_decl_init_main <crepr> (57)
+        on left: 19
+        on right: 17 18
+    parameter_decl_id_main <crepr> (58)
+        on left: 20 21
+        on right: 19
+    type_spec_main <crepr> (59)
+        on left: 22 23
+        on right: 19
+    parameter_decl_list <crepr> (60)
+        on left: 24 25 26
+        on right: 25 39
+    parameter_decl_init <crepr> (61)
+        on left: 27
+        on right: 25 26
+    parameter_decl_id <crepr> (62)
+        on left: 28 29
+        on right: 27
+    decl <crepr> (63)
+        on left: 30 31
+        on right: 14 15
+    const_decl_body <crepr> (64)
+        on left: 32 33
+        on right: 31
+    const_decl_list <crepr> (65)
+        on left: 34 35
+        on right: 32 34
+    const_decl_init <crepr> (66)
+        on left: 36 37
+        on right: 33 34 35
+    const_rule <crepr> (67)
+        on left: 38 39
+        on right: 36 37
+    const_decl_id <crepr> (68)
+        on left: 40 41 42
+        on right: 36 39
+    var_decl_body <crepr> (69)
+        on left: 43
+        on right: 4 30
+    var_decl_list <crepr> (70)
+        on left: 44 45
+        on right: 43 44
+    var_decl_init <crepr> (71)
+        on left: 46 47
+        on right: 44 45
+    var_decl_id <crepr> (72)
+        on left: 48 49 50
+        on right: 46 47
+    type_spec <crepr> (73)
+        on left: 51 52 53 54
+        on right: 1 27 32 39 43
+    expr <crepr> (74)
+        on left: 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79
+        on right: 5 6 7 10 11 13 38 41 47 49 58 59 60 61 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79
+
+
+State 0
+
+    0 $accept: . program $end
+    1 program: . decl_list KW_FUNCTION KW_START DELIM_RIGHT_PARANTHESIS parameter_decl_list_main DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET
+   14 decl_list: . decl_list decl
+   15          | . decl
+   30 decl: . KW_VAR var_decl_body
+   31     | . KW_FUNCTION const_decl_body
+
+    KW_VAR       shift, and go to state 1
+    KW_FUNCTION  shift, and go to state 2
+
+    program    go to state 3
+    decl_list  go to state 4
+    decl       go to state 5
+
+
+State 1
+
+   30 decl: KW_VAR . var_decl_body
+   43 var_decl_body: . var_decl_list DELIM_COLON type_spec DELIM_SEMICOLON
+   44 var_decl_list: . var_decl_list DELIM_COMMA var_decl_init
+   45              | . var_decl_init
+   46 var_decl_init: . var_decl_id
+   47              | . var_decl_id OP_ASSIGN expr
+   48 var_decl_id: . IDENT
+   49            | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   50            | . IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+
+    IDENT  shift, and go to state 6
+
+    var_decl_body  go to state 7
+    var_decl_list  go to state 8
+    var_decl_init  go to state 9
+    var_decl_id    go to state 10
+
+
+State 2
+
+   31 decl: KW_FUNCTION . const_decl_body
+   32 const_decl_body: . const_decl_list DELIM_COLON type_spec DELIM_SEMICOLON
+   33                | . const_decl_init
+   34 const_decl_list: . const_decl_list DELIM_COMMA const_decl_init
+   35                | . const_decl_init
+   36 const_decl_init: . const_decl_id OP_ASSIGN const_rule
+   37                | . const_rule
+   38 const_rule: . expr
+   39           | . const_decl_id OP_ASSIGN DELIM_RIGHT_PARANTHESIS parameter_decl_list DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   40 const_decl_id: . IDENT
+   41              | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   42              | . IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 11
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    const_decl_body  go to state 20
+    const_decl_list  go to state 21
+    const_decl_init  go to state 22
+    const_rule       go to state 23
+    const_decl_id    go to state 24
+    expr             go to state 25
+
+
+State 3
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 26
+
+
+State 4
+
+    1 program: decl_list . KW_FUNCTION KW_START DELIM_RIGHT_PARANTHESIS parameter_decl_list_main DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET
+   14 decl_list: decl_list . decl
+   30 decl: . KW_VAR var_decl_body
+   31     | . KW_FUNCTION const_decl_body
+
+    KW_VAR       shift, and go to state 1
+    KW_FUNCTION  shift, and go to state 27
+
+    decl  go to state 28
+
+
+State 5
+
+   15 decl_list: decl .
+
+    $default  reduce using rule 15 (decl_list)
+
+
+State 6
+
+   48 var_decl_id: IDENT .  [OP_ASSIGN, DELIM_COMMA, DELIM_COLON]
+   49            | IDENT . DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   50            | IDENT . DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+
+    DELIM_RIGHT_BRACKET  shift, and go to state 29
+
+    $default  reduce using rule 48 (var_decl_id)
+
+
+State 7
+
+   30 decl: KW_VAR var_decl_body .
+
+    $default  reduce using rule 30 (decl)
+
+
+State 8
+
+   43 var_decl_body: var_decl_list . DELIM_COLON type_spec DELIM_SEMICOLON
+   44 var_decl_list: var_decl_list . DELIM_COMMA var_decl_init
+
+    DELIM_COMMA  shift, and go to state 30
+    DELIM_COLON  shift, and go to state 31
+
+
+State 9
+
+   45 var_decl_list: var_decl_init .
+
+    $default  reduce using rule 45 (var_decl_list)
+
+
+State 10
+
+   46 var_decl_init: var_decl_id .  [DELIM_COMMA, DELIM_COLON]
+   47              | var_decl_id . OP_ASSIGN expr
+
+    OP_ASSIGN  shift, and go to state 32
+
+    $default  reduce using rule 46 (var_decl_init)
+
+
+State 11
+
+   40 const_decl_id: IDENT .  [OP_ASSIGN]
+   41              | IDENT . DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   42              | IDENT . DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+   56 expr: IDENT .  [KW_VAR, KW_FUNCTION, OP_AND, OP_OR, DELIM_COMMA, DELIM_COLON, OP_MUL, OP_DIV, OP_MOD, OP_ADD, OP_SUB, OP_EQUAL, OP_NOT_EQUAL, OP_GREATER_THAN, OP_GREATER_EQUAL_THAN, OP_LESS_EQUAL_THAN]
+   58     | IDENT . DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   60     | IDENT . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | IDENT . DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | IDENT . DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+
+    DELIM_RIGHT_BRACKET      shift, and go to state 33
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 34
+
+    OP_ASSIGN  reduce using rule 40 (const_decl_id)
+    $default   reduce using rule 56 (expr)
+
+
+State 12
+
+   57 expr: STRING .
+
+    $default  reduce using rule 57 (expr)
+
+
+State 13
+
+   55 expr: NUMBER .
+
+    $default  reduce using rule 55 (expr)
+
+
+State 14
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   72     | OP_NOT . expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 36
+
+
+State 15
+
+   63 expr: BOOLEAN_TRUE .
+
+    $default  reduce using rule 63 (expr)
+
+
+State 16
+
+   64 expr: BOOLEAN_FALSE .
+
+    $default  reduce using rule 64 (expr)
+
+
+State 17
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   59     | DELIM_RIGHT_PARANTHESIS . expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 37
+
+
+State 18
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   70     | OP_ADD . expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 38
+
+
+State 19
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   71     | OP_SUB . expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 39
+
+
+State 20
+
+   31 decl: KW_FUNCTION const_decl_body .
+
+    $default  reduce using rule 31 (decl)
+
+
+State 21
+
+   32 const_decl_body: const_decl_list . DELIM_COLON type_spec DELIM_SEMICOLON
+   34 const_decl_list: const_decl_list . DELIM_COMMA const_decl_init
+
+    DELIM_COMMA  shift, and go to state 40
+    DELIM_COLON  shift, and go to state 41
+
+
+State 22
+
+   33 const_decl_body: const_decl_init .  [KW_VAR, KW_FUNCTION]
+   35 const_decl_list: const_decl_init .  [DELIM_COMMA, DELIM_COLON]
+
+    DELIM_COMMA  reduce using rule 35 (const_decl_list)
+    DELIM_COLON  reduce using rule 35 (const_decl_list)
+    $default     reduce using rule 33 (const_decl_body)
+
+
+State 23
+
+   37 const_decl_init: const_rule .
+
+    $default  reduce using rule 37 (const_decl_init)
+
+
+State 24
+
+   36 const_decl_init: const_decl_id . OP_ASSIGN const_rule
+   39 const_rule: const_decl_id . OP_ASSIGN DELIM_RIGHT_PARANTHESIS parameter_decl_list DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+
+    OP_ASSIGN  shift, and go to state 42
+
+
+State 25
+
+   38 const_rule: expr .  [KW_VAR, KW_FUNCTION, DELIM_COMMA, DELIM_COLON]
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                 shift, and go to state 43
+    OP_OR                  shift, and go to state 44
+    OP_MUL                 shift, and go to state 45
+    OP_DIV                 shift, and go to state 46
+    OP_MOD                 shift, and go to state 47
+    OP_ADD                 shift, and go to state 48
+    OP_SUB                 shift, and go to state 49
+    OP_EQUAL               shift, and go to state 50
+    OP_NOT_EQUAL           shift, and go to state 51
+    OP_GREATER_THAN        shift, and go to state 52
+    OP_GREATER_EQUAL_THAN  shift, and go to state 53
+    OP_LESS_EQUAL_THAN     shift, and go to state 54
+
+    $default  reduce using rule 38 (const_rule)
+
+
+State 26
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 27
+
+    1 program: decl_list KW_FUNCTION . KW_START DELIM_RIGHT_PARANTHESIS parameter_decl_list_main DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET
+   31 decl: KW_FUNCTION . const_decl_body
+   32 const_decl_body: . const_decl_list DELIM_COLON type_spec DELIM_SEMICOLON
+   33                | . const_decl_init
+   34 const_decl_list: . const_decl_list DELIM_COMMA const_decl_init
+   35                | . const_decl_init
+   36 const_decl_init: . const_decl_id OP_ASSIGN const_rule
+   37                | . const_rule
+   38 const_rule: . expr
+   39           | . const_decl_id OP_ASSIGN DELIM_RIGHT_PARANTHESIS parameter_decl_list DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   40 const_decl_id: . IDENT
+   41              | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   42              | . IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 11
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    KW_START                 shift, and go to state 55
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    const_decl_body  go to state 20
+    const_decl_list  go to state 21
+    const_decl_init  go to state 22
+    const_rule       go to state 23
+    const_decl_id    go to state 24
+    expr             go to state 25
+
+
+State 28
+
+   14 decl_list: decl_list decl .
+
+    $default  reduce using rule 14 (decl_list)
+
+
+State 29
+
+   49 var_decl_id: IDENT DELIM_RIGHT_BRACKET . expr DELIM_LEFT_BRACKET
+   50            | IDENT DELIM_RIGHT_BRACKET . DELIM_LEFT_BRACKET
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_LEFT_BRACKET       shift, and go to state 56
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 57
+
+
+State 30
+
+   44 var_decl_list: var_decl_list DELIM_COMMA . var_decl_init
+   46 var_decl_init: . var_decl_id
+   47              | . var_decl_id OP_ASSIGN expr
+   48 var_decl_id: . IDENT
+   49            | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   50            | . IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+
+    IDENT  shift, and go to state 6
+
+    var_decl_init  go to state 58
+    var_decl_id    go to state 10
+
+
+State 31
+
+   43 var_decl_body: var_decl_list DELIM_COLON . type_spec DELIM_SEMICOLON
+   51 type_spec: . KW_NUMBER
+   52          | . KW_BOOLEAN
+   53          | . KW_STRING
+   54          | . KW_VOID
+
+    KW_NUMBER   shift, and go to state 59
+    KW_BOOLEAN  shift, and go to state 60
+    KW_STRING   shift, and go to state 61
+    KW_VOID     shift, and go to state 62
+
+    type_spec  go to state 63
+
+
+State 32
+
+   47 var_decl_init: var_decl_id OP_ASSIGN . expr
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 64
+
+
+State 33
+
+   41 const_decl_id: IDENT DELIM_RIGHT_BRACKET . expr DELIM_LEFT_BRACKET
+   42              | IDENT DELIM_RIGHT_BRACKET . DELIM_LEFT_BRACKET
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   58     | IDENT DELIM_RIGHT_BRACKET . expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_LEFT_BRACKET       shift, and go to state 65
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 66
+
+
+State 34
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | IDENT DELIM_RIGHT_PARANTHESIS . expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   61     | IDENT DELIM_RIGHT_PARANTHESIS . expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   62     | IDENT DELIM_RIGHT_PARANTHESIS . DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    DELIM_LEFT_PARANTHESIS   shift, and go to state 67
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 68
+
+
+State 35
+
+   56 expr: IDENT .  [IDENT, STRING, NUMBER, KW_VAR, KW_IF, KW_WHILE, KW_FUNCTION, OP_NOT, OP_AND, OP_OR, KW_RETURN, BOOLEAN_TRUE, BOOLEAN_FALSE, DELIM_SEMICOLON, DELIM_COMMA, DELIM_CURLY_RIGHT_BRACKET, DELIM_COLON, DELIM_LEFT_BRACKET, DELIM_RIGHT_PARANTHESIS, DELIM_LEFT_PARANTHESIS, OP_MUL, OP_DIV, OP_MOD, OP_ADD, OP_SUB, OP_EQUAL, OP_NOT_EQUAL, OP_GREATER_THAN, OP_GREATER_EQUAL_THAN, OP_LESS_EQUAL_THAN]
+   58     | IDENT . DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   60     | IDENT . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | IDENT . DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | IDENT . DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+
+    DELIM_RIGHT_BRACKET      shift, and go to state 69
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 34
+
+    DELIM_RIGHT_PARANTHESIS  [reduce using rule 56 (expr)]
+    $default                 reduce using rule 56 (expr)
+
+
+State 36
+
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   72     | OP_NOT expr .  [IDENT, STRING, NUMBER, KW_VAR, KW_IF, KW_WHILE, KW_FUNCTION, OP_NOT, KW_RETURN, BOOLEAN_TRUE, BOOLEAN_FALSE, DELIM_SEMICOLON, DELIM_COMMA, DELIM_CURLY_RIGHT_BRACKET, DELIM_COLON, DELIM_LEFT_BRACKET, DELIM_RIGHT_PARANTHESIS, DELIM_LEFT_PARANTHESIS]
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                 shift, and go to state 43
+    OP_OR                  shift, and go to state 44
+    OP_MUL                 shift, and go to state 45
+    OP_DIV                 shift, and go to state 46
+    OP_MOD                 shift, and go to state 47
+    OP_ADD                 shift, and go to state 48
+    OP_SUB                 shift, and go to state 49
+    OP_EQUAL               shift, and go to state 50
+    OP_NOT_EQUAL           shift, and go to state 51
+    OP_GREATER_THAN        shift, and go to state 52
+    OP_GREATER_EQUAL_THAN  shift, and go to state 53
+    OP_LESS_EQUAL_THAN     shift, and go to state 54
+
+    $default  reduce using rule 72 (expr)
+
+    Conflict between rule 72 and token OP_AND resolved as shift (OP_NOT < OP_AND).
+    Conflict between rule 72 and token OP_OR resolved as shift (OP_NOT < OP_OR).
+    Conflict between rule 72 and token OP_MUL resolved as shift (OP_NOT < OP_MUL).
+    Conflict between rule 72 and token OP_DIV resolved as shift (OP_NOT < OP_DIV).
+    Conflict between rule 72 and token OP_MOD resolved as shift (OP_NOT < OP_MOD).
+    Conflict between rule 72 and token OP_ADD resolved as shift (OP_NOT < OP_ADD).
+    Conflict between rule 72 and token OP_SUB resolved as shift (OP_NOT < OP_SUB).
+    Conflict between rule 72 and token OP_EQUAL resolved as shift (OP_NOT < OP_EQUAL).
+    Conflict between rule 72 and token OP_NOT_EQUAL resolved as shift (OP_NOT < OP_NOT_EQUAL).
+    Conflict between rule 72 and token OP_GREATER_THAN resolved as shift (OP_NOT < OP_GREATER_THAN).
+    Conflict between rule 72 and token OP_GREATER_EQUAL_THAN resolved as shift (OP_NOT < OP_GREATER_EQUAL_THAN).
+    Conflict between rule 72 and token OP_LESS_EQUAL_THAN resolved as shift (OP_NOT < OP_LESS_EQUAL_THAN).
+
+
+State 37
+
+   59 expr: DELIM_RIGHT_PARANTHESIS expr . DELIM_LEFT_PARANTHESIS
+   65     | expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                  shift, and go to state 43
+    OP_OR                   shift, and go to state 44
+    DELIM_LEFT_PARANTHESIS  shift, and go to state 70
+    OP_MUL                  shift, and go to state 45
+    OP_DIV                  shift, and go to state 46
+    OP_MOD                  shift, and go to state 47
+    OP_ADD                  shift, and go to state 48
+    OP_SUB                  shift, and go to state 49
+    OP_EQUAL                shift, and go to state 50
+    OP_NOT_EQUAL            shift, and go to state 51
+    OP_GREATER_THAN         shift, and go to state 52
+    OP_GREATER_EQUAL_THAN   shift, and go to state 53
+    OP_LESS_EQUAL_THAN      shift, and go to state 54
+
+
+State 38
+
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   70     | OP_ADD expr .  [IDENT, STRING, NUMBER, KW_VAR, KW_IF, KW_WHILE, KW_FUNCTION, OP_NOT, KW_RETURN, BOOLEAN_TRUE, BOOLEAN_FALSE, DELIM_SEMICOLON, DELIM_COMMA, DELIM_CURLY_RIGHT_BRACKET, DELIM_COLON, DELIM_LEFT_BRACKET, DELIM_RIGHT_PARANTHESIS, DELIM_LEFT_PARANTHESIS]
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                 shift, and go to state 43
+    OP_OR                  shift, and go to state 44
+    OP_MUL                 shift, and go to state 45
+    OP_DIV                 shift, and go to state 46
+    OP_MOD                 shift, and go to state 47
+    OP_ADD                 shift, and go to state 48
+    OP_SUB                 shift, and go to state 49
+    OP_EQUAL               shift, and go to state 50
+    OP_NOT_EQUAL           shift, and go to state 51
+    OP_GREATER_THAN        shift, and go to state 52
+    OP_GREATER_EQUAL_THAN  shift, and go to state 53
+    OP_LESS_EQUAL_THAN     shift, and go to state 54
+
+    $default  reduce using rule 70 (expr)
+
+    Conflict between rule 70 and token OP_AND resolved as shift (PREFIX < OP_AND).
+    Conflict between rule 70 and token OP_OR resolved as shift (PREFIX < OP_OR).
+    Conflict between rule 70 and token OP_MUL resolved as shift (PREFIX < OP_MUL).
+    Conflict between rule 70 and token OP_DIV resolved as shift (PREFIX < OP_DIV).
+    Conflict between rule 70 and token OP_MOD resolved as shift (PREFIX < OP_MOD).
+    Conflict between rule 70 and token OP_ADD resolved as shift (PREFIX < OP_ADD).
+    Conflict between rule 70 and token OP_SUB resolved as shift (PREFIX < OP_SUB).
+    Conflict between rule 70 and token OP_EQUAL resolved as shift (PREFIX < OP_EQUAL).
+    Conflict between rule 70 and token OP_NOT_EQUAL resolved as shift (PREFIX < OP_NOT_EQUAL).
+    Conflict between rule 70 and token OP_GREATER_THAN resolved as shift (PREFIX < OP_GREATER_THAN).
+    Conflict between rule 70 and token OP_GREATER_EQUAL_THAN resolved as shift (PREFIX < OP_GREATER_EQUAL_THAN).
+    Conflict between rule 70 and token OP_LESS_EQUAL_THAN resolved as shift (PREFIX < OP_LESS_EQUAL_THAN).
+
+
+State 39
+
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   71     | OP_SUB expr .  [IDENT, STRING, NUMBER, KW_VAR, KW_IF, KW_WHILE, KW_FUNCTION, OP_NOT, KW_RETURN, BOOLEAN_TRUE, BOOLEAN_FALSE, DELIM_SEMICOLON, DELIM_COMMA, DELIM_CURLY_RIGHT_BRACKET, DELIM_COLON, DELIM_LEFT_BRACKET, DELIM_RIGHT_PARANTHESIS, DELIM_LEFT_PARANTHESIS]
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                 shift, and go to state 43
+    OP_OR                  shift, and go to state 44
+    OP_MUL                 shift, and go to state 45
+    OP_DIV                 shift, and go to state 46
+    OP_MOD                 shift, and go to state 47
+    OP_ADD                 shift, and go to state 48
+    OP_SUB                 shift, and go to state 49
+    OP_EQUAL               shift, and go to state 50
+    OP_NOT_EQUAL           shift, and go to state 51
+    OP_GREATER_THAN        shift, and go to state 52
+    OP_GREATER_EQUAL_THAN  shift, and go to state 53
+    OP_LESS_EQUAL_THAN     shift, and go to state 54
+
+    $default  reduce using rule 71 (expr)
+
+    Conflict between rule 71 and token OP_AND resolved as shift (PREFIX < OP_AND).
+    Conflict between rule 71 and token OP_OR resolved as shift (PREFIX < OP_OR).
+    Conflict between rule 71 and token OP_MUL resolved as shift (PREFIX < OP_MUL).
+    Conflict between rule 71 and token OP_DIV resolved as shift (PREFIX < OP_DIV).
+    Conflict between rule 71 and token OP_MOD resolved as shift (PREFIX < OP_MOD).
+    Conflict between rule 71 and token OP_ADD resolved as shift (PREFIX < OP_ADD).
+    Conflict between rule 71 and token OP_SUB resolved as shift (PREFIX < OP_SUB).
+    Conflict between rule 71 and token OP_EQUAL resolved as shift (PREFIX < OP_EQUAL).
+    Conflict between rule 71 and token OP_NOT_EQUAL resolved as shift (PREFIX < OP_NOT_EQUAL).
+    Conflict between rule 71 and token OP_GREATER_THAN resolved as shift (PREFIX < OP_GREATER_THAN).
+    Conflict between rule 71 and token OP_GREATER_EQUAL_THAN resolved as shift (PREFIX < OP_GREATER_EQUAL_THAN).
+    Conflict between rule 71 and token OP_LESS_EQUAL_THAN resolved as shift (PREFIX < OP_LESS_EQUAL_THAN).
+
+
+State 40
+
+   34 const_decl_list: const_decl_list DELIM_COMMA . const_decl_init
+   36 const_decl_init: . const_decl_id OP_ASSIGN const_rule
+   37                | . const_rule
+   38 const_rule: . expr
+   39           | . const_decl_id OP_ASSIGN DELIM_RIGHT_PARANTHESIS parameter_decl_list DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   40 const_decl_id: . IDENT
+   41              | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   42              | . IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 11
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    const_decl_init  go to state 71
+    const_rule       go to state 23
+    const_decl_id    go to state 24
+    expr             go to state 25
+
+
+State 41
+
+   32 const_decl_body: const_decl_list DELIM_COLON . type_spec DELIM_SEMICOLON
+   51 type_spec: . KW_NUMBER
+   52          | . KW_BOOLEAN
+   53          | . KW_STRING
+   54          | . KW_VOID
+
+    KW_NUMBER   shift, and go to state 59
+    KW_BOOLEAN  shift, and go to state 60
+    KW_STRING   shift, and go to state 61
+    KW_VOID     shift, and go to state 62
+
+    type_spec  go to state 72
+
+
+State 42
+
+   36 const_decl_init: const_decl_id OP_ASSIGN . const_rule
+   38 const_rule: . expr
+   39           | . const_decl_id OP_ASSIGN DELIM_RIGHT_PARANTHESIS parameter_decl_list DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   39           | const_decl_id OP_ASSIGN . DELIM_RIGHT_PARANTHESIS parameter_decl_list DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   40 const_decl_id: . IDENT
+   41              | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   42              | . IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 11
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 73
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    const_rule     go to state 74
+    const_decl_id  go to state 75
+    expr           go to state 25
+
+
+State 43
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   78     | expr OP_AND . expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 76
+
+
+State 44
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+   79     | expr OP_OR . expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 77
+
+
+State 45
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   65     | expr OP_MUL . expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 78
+
+
+State 46
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   66     | expr OP_DIV . expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 79
+
+
+State 47
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   67     | expr OP_MOD . expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 80
+
+
+State 48
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   68     | expr OP_ADD . expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 81
+
+
+State 49
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   69     | expr OP_SUB . expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 82
+
+
+State 50
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   73     | expr OP_EQUAL . expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 83
+
+
+State 51
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   74     | expr OP_NOT_EQUAL . expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 84
+
+
+State 52
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   75     | expr OP_GREATER_THAN . expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 85
+
+
+State 53
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   76     | expr OP_GREATER_EQUAL_THAN . expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 86
+
+
+State 54
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   77     | expr OP_LESS_EQUAL_THAN . expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 87
+
+
+State 55
+
+    1 program: decl_list KW_FUNCTION KW_START . DELIM_RIGHT_PARANTHESIS parameter_decl_list_main DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET
+
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 88
+
+
+State 56
+
+   50 var_decl_id: IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET .
+
+    $default  reduce using rule 50 (var_decl_id)
+
+
+State 57
+
+   49 var_decl_id: IDENT DELIM_RIGHT_BRACKET expr . DELIM_LEFT_BRACKET
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                 shift, and go to state 43
+    OP_OR                  shift, and go to state 44
+    DELIM_LEFT_BRACKET     shift, and go to state 89
+    OP_MUL                 shift, and go to state 45
+    OP_DIV                 shift, and go to state 46
+    OP_MOD                 shift, and go to state 47
+    OP_ADD                 shift, and go to state 48
+    OP_SUB                 shift, and go to state 49
+    OP_EQUAL               shift, and go to state 50
+    OP_NOT_EQUAL           shift, and go to state 51
+    OP_GREATER_THAN        shift, and go to state 52
+    OP_GREATER_EQUAL_THAN  shift, and go to state 53
+    OP_LESS_EQUAL_THAN     shift, and go to state 54
+
+
+State 58
+
+   44 var_decl_list: var_decl_list DELIM_COMMA var_decl_init .
+
+    $default  reduce using rule 44 (var_decl_list)
+
+
+State 59
+
+   51 type_spec: KW_NUMBER .
+
+    $default  reduce using rule 51 (type_spec)
+
+
+State 60
+
+   52 type_spec: KW_BOOLEAN .
+
+    $default  reduce using rule 52 (type_spec)
+
+
+State 61
+
+   53 type_spec: KW_STRING .
+
+    $default  reduce using rule 53 (type_spec)
+
+
+State 62
+
+   54 type_spec: KW_VOID .
+
+    $default  reduce using rule 54 (type_spec)
+
+
+State 63
+
+   43 var_decl_body: var_decl_list DELIM_COLON type_spec . DELIM_SEMICOLON
+
+    DELIM_SEMICOLON  shift, and go to state 90
+
+
+State 64
+
+   47 var_decl_init: var_decl_id OP_ASSIGN expr .  [DELIM_COMMA, DELIM_COLON]
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                 shift, and go to state 43
+    OP_OR                  shift, and go to state 44
+    OP_MUL                 shift, and go to state 45
+    OP_DIV                 shift, and go to state 46
+    OP_MOD                 shift, and go to state 47
+    OP_ADD                 shift, and go to state 48
+    OP_SUB                 shift, and go to state 49
+    OP_EQUAL               shift, and go to state 50
+    OP_NOT_EQUAL           shift, and go to state 51
+    OP_GREATER_THAN        shift, and go to state 52
+    OP_GREATER_EQUAL_THAN  shift, and go to state 53
+    OP_LESS_EQUAL_THAN     shift, and go to state 54
+
+    $default  reduce using rule 47 (var_decl_init)
+
+
+State 65
+
+   42 const_decl_id: IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET .
+
+    $default  reduce using rule 42 (const_decl_id)
+
+
+State 66
+
+   41 const_decl_id: IDENT DELIM_RIGHT_BRACKET expr . DELIM_LEFT_BRACKET
+   58 expr: IDENT DELIM_RIGHT_BRACKET expr . DELIM_LEFT_BRACKET
+   65     | expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                 shift, and go to state 43
+    OP_OR                  shift, and go to state 44
+    DELIM_LEFT_BRACKET     shift, and go to state 91
+    OP_MUL                 shift, and go to state 45
+    OP_DIV                 shift, and go to state 46
+    OP_MOD                 shift, and go to state 47
+    OP_ADD                 shift, and go to state 48
+    OP_SUB                 shift, and go to state 49
+    OP_EQUAL               shift, and go to state 50
+    OP_NOT_EQUAL           shift, and go to state 51
+    OP_GREATER_THAN        shift, and go to state 52
+    OP_GREATER_EQUAL_THAN  shift, and go to state 53
+    OP_LESS_EQUAL_THAN     shift, and go to state 54
+
+
+State 67
+
+   62 expr: IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS .
+
+    $default  reduce using rule 62 (expr)
+
+
+State 68
+
+   60 expr: IDENT DELIM_RIGHT_PARANTHESIS expr . DELIM_LEFT_PARANTHESIS
+   61     | IDENT DELIM_RIGHT_PARANTHESIS expr . DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   65     | expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                  shift, and go to state 43
+    OP_OR                   shift, and go to state 44
+    DELIM_COMMA             shift, and go to state 92
+    DELIM_LEFT_PARANTHESIS  shift, and go to state 93
+    OP_MUL                  shift, and go to state 45
+    OP_DIV                  shift, and go to state 46
+    OP_MOD                  shift, and go to state 47
+    OP_ADD                  shift, and go to state 48
+    OP_SUB                  shift, and go to state 49
+    OP_EQUAL                shift, and go to state 50
+    OP_NOT_EQUAL            shift, and go to state 51
+    OP_GREATER_THAN         shift, and go to state 52
+    OP_GREATER_EQUAL_THAN   shift, and go to state 53
+    OP_LESS_EQUAL_THAN      shift, and go to state 54
+
+
+State 69
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   58     | IDENT DELIM_RIGHT_BRACKET . expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 94
+
+
+State 70
+
+   59 expr: DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS .
+
+    $default  reduce using rule 59 (expr)
+
+
+State 71
+
+   34 const_decl_list: const_decl_list DELIM_COMMA const_decl_init .
+
+    $default  reduce using rule 34 (const_decl_list)
+
+
+State 72
+
+   32 const_decl_body: const_decl_list DELIM_COLON type_spec . DELIM_SEMICOLON
+
+    DELIM_SEMICOLON  shift, and go to state 95
+
+
+State 73
+
+   24 parameter_decl_list: . %empty  [DELIM_COMMA, DELIM_LEFT_PARANTHESIS]
+   25                    | . parameter_decl_list DELIM_COMMA parameter_decl_init
+   26                    | . parameter_decl_init
+   27 parameter_decl_init: . parameter_decl_id DELIM_COLON type_spec
+   28 parameter_decl_id: . IDENT
+   29                  | . IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+   39 const_rule: const_decl_id OP_ASSIGN DELIM_RIGHT_PARANTHESIS . parameter_decl_list DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   59     | DELIM_RIGHT_PARANTHESIS . expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 96
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    $default  reduce using rule 24 (parameter_decl_list)
+
+    parameter_decl_list  go to state 97
+    parameter_decl_init  go to state 98
+    parameter_decl_id    go to state 99
+    expr                 go to state 37
+
+
+State 74
+
+   36 const_decl_init: const_decl_id OP_ASSIGN const_rule .
+
+    $default  reduce using rule 36 (const_decl_init)
+
+
+State 75
+
+   39 const_rule: const_decl_id . OP_ASSIGN DELIM_RIGHT_PARANTHESIS parameter_decl_list DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+
+    OP_ASSIGN  shift, and go to state 100
+
+
+State 76
+
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   78     | expr OP_AND expr .  [IDENT, STRING, NUMBER, KW_VAR, KW_IF, KW_WHILE, KW_FUNCTION, OP_NOT, OP_AND, OP_OR, KW_RETURN, BOOLEAN_TRUE, BOOLEAN_FALSE, DELIM_SEMICOLON, DELIM_COMMA, DELIM_CURLY_RIGHT_BRACKET, DELIM_COLON, DELIM_LEFT_BRACKET, DELIM_RIGHT_PARANTHESIS, DELIM_LEFT_PARANTHESIS, OP_MUL, OP_DIV, OP_MOD, OP_ADD, OP_SUB, OP_EQUAL, OP_NOT_EQUAL, OP_GREATER_THAN, OP_GREATER_EQUAL_THAN, OP_LESS_EQUAL_THAN]
+   79     | expr . OP_OR expr
+
+    $default  reduce using rule 78 (expr)
+
+    Conflict between rule 78 and token OP_AND resolved as reduce (%left OP_AND).
+    Conflict between rule 78 and token OP_OR resolved as reduce (%left OP_OR).
+    Conflict between rule 78 and token OP_MUL resolved as reduce (OP_MUL < OP_AND).
+    Conflict between rule 78 and token OP_DIV resolved as reduce (OP_DIV < OP_AND).
+    Conflict between rule 78 and token OP_MOD resolved as reduce (OP_MOD < OP_AND).
+    Conflict between rule 78 and token OP_ADD resolved as reduce (OP_ADD < OP_AND).
+    Conflict between rule 78 and token OP_SUB resolved as reduce (OP_SUB < OP_AND).
+    Conflict between rule 78 and token OP_EQUAL resolved as reduce (OP_EQUAL < OP_AND).
+    Conflict between rule 78 and token OP_NOT_EQUAL resolved as reduce (OP_NOT_EQUAL < OP_AND).
+    Conflict between rule 78 and token OP_GREATER_THAN resolved as reduce (OP_GREATER_THAN < OP_AND).
+    Conflict between rule 78 and token OP_GREATER_EQUAL_THAN resolved as reduce (OP_GREATER_EQUAL_THAN < OP_AND).
+    Conflict between rule 78 and token OP_LESS_EQUAL_THAN resolved as reduce (OP_LESS_EQUAL_THAN < OP_AND).
+
+
+State 77
+
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+   79     | expr OP_OR expr .  [IDENT, STRING, NUMBER, KW_VAR, KW_IF, KW_WHILE, KW_FUNCTION, OP_NOT, OP_AND, OP_OR, KW_RETURN, BOOLEAN_TRUE, BOOLEAN_FALSE, DELIM_SEMICOLON, DELIM_COMMA, DELIM_CURLY_RIGHT_BRACKET, DELIM_COLON, DELIM_LEFT_BRACKET, DELIM_RIGHT_PARANTHESIS, DELIM_LEFT_PARANTHESIS, OP_MUL, OP_DIV, OP_MOD, OP_ADD, OP_SUB, OP_EQUAL, OP_NOT_EQUAL, OP_GREATER_THAN, OP_GREATER_EQUAL_THAN, OP_LESS_EQUAL_THAN]
+
+    $default  reduce using rule 79 (expr)
+
+    Conflict between rule 79 and token OP_AND resolved as reduce (%left OP_AND).
+    Conflict between rule 79 and token OP_OR resolved as reduce (%left OP_OR).
+    Conflict between rule 79 and token OP_MUL resolved as reduce (OP_MUL < OP_OR).
+    Conflict between rule 79 and token OP_DIV resolved as reduce (OP_DIV < OP_OR).
+    Conflict between rule 79 and token OP_MOD resolved as reduce (OP_MOD < OP_OR).
+    Conflict between rule 79 and token OP_ADD resolved as reduce (OP_ADD < OP_OR).
+    Conflict between rule 79 and token OP_SUB resolved as reduce (OP_SUB < OP_OR).
+    Conflict between rule 79 and token OP_EQUAL resolved as reduce (OP_EQUAL < OP_OR).
+    Conflict between rule 79 and token OP_NOT_EQUAL resolved as reduce (OP_NOT_EQUAL < OP_OR).
+    Conflict between rule 79 and token OP_GREATER_THAN resolved as reduce (OP_GREATER_THAN < OP_OR).
+    Conflict between rule 79 and token OP_GREATER_EQUAL_THAN resolved as reduce (OP_GREATER_EQUAL_THAN < OP_OR).
+    Conflict between rule 79 and token OP_LESS_EQUAL_THAN resolved as reduce (OP_LESS_EQUAL_THAN < OP_OR).
+
+
+State 78
+
+   65 expr: expr . OP_MUL expr
+   65     | expr OP_MUL expr .  [IDENT, STRING, NUMBER, KW_VAR, KW_IF, KW_WHILE, KW_FUNCTION, OP_NOT, KW_RETURN, BOOLEAN_TRUE, BOOLEAN_FALSE, DELIM_SEMICOLON, DELIM_COMMA, DELIM_CURLY_RIGHT_BRACKET, DELIM_COLON, DELIM_LEFT_BRACKET, DELIM_RIGHT_PARANTHESIS, DELIM_LEFT_PARANTHESIS, OP_MUL, OP_DIV, OP_MOD]
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                 shift, and go to state 43
+    OP_OR                  shift, and go to state 44
+    OP_ADD                 shift, and go to state 48
+    OP_SUB                 shift, and go to state 49
+    OP_EQUAL               shift, and go to state 50
+    OP_NOT_EQUAL           shift, and go to state 51
+    OP_GREATER_THAN        shift, and go to state 52
+    OP_GREATER_EQUAL_THAN  shift, and go to state 53
+    OP_LESS_EQUAL_THAN     shift, and go to state 54
+
+    $default  reduce using rule 65 (expr)
+
+    Conflict between rule 65 and token OP_AND resolved as shift (OP_MUL < OP_AND).
+    Conflict between rule 65 and token OP_OR resolved as shift (OP_MUL < OP_OR).
+    Conflict between rule 65 and token OP_MUL resolved as reduce (%left OP_MUL).
+    Conflict between rule 65 and token OP_DIV resolved as reduce (%left OP_DIV).
+    Conflict between rule 65 and token OP_MOD resolved as reduce (%left OP_MOD).
+    Conflict between rule 65 and token OP_ADD resolved as shift (OP_MUL < OP_ADD).
+    Conflict between rule 65 and token OP_SUB resolved as shift (OP_MUL < OP_SUB).
+    Conflict between rule 65 and token OP_EQUAL resolved as shift (OP_MUL < OP_EQUAL).
+    Conflict between rule 65 and token OP_NOT_EQUAL resolved as shift (OP_MUL < OP_NOT_EQUAL).
+    Conflict between rule 65 and token OP_GREATER_THAN resolved as shift (OP_MUL < OP_GREATER_THAN).
+    Conflict between rule 65 and token OP_GREATER_EQUAL_THAN resolved as shift (OP_MUL < OP_GREATER_EQUAL_THAN).
+    Conflict between rule 65 and token OP_LESS_EQUAL_THAN resolved as shift (OP_MUL < OP_LESS_EQUAL_THAN).
+
+
+State 79
+
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   66     | expr OP_DIV expr .  [IDENT, STRING, NUMBER, KW_VAR, KW_IF, KW_WHILE, KW_FUNCTION, OP_NOT, KW_RETURN, BOOLEAN_TRUE, BOOLEAN_FALSE, DELIM_SEMICOLON, DELIM_COMMA, DELIM_CURLY_RIGHT_BRACKET, DELIM_COLON, DELIM_LEFT_BRACKET, DELIM_RIGHT_PARANTHESIS, DELIM_LEFT_PARANTHESIS, OP_MUL, OP_DIV, OP_MOD]
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                 shift, and go to state 43
+    OP_OR                  shift, and go to state 44
+    OP_ADD                 shift, and go to state 48
+    OP_SUB                 shift, and go to state 49
+    OP_EQUAL               shift, and go to state 50
+    OP_NOT_EQUAL           shift, and go to state 51
+    OP_GREATER_THAN        shift, and go to state 52
+    OP_GREATER_EQUAL_THAN  shift, and go to state 53
+    OP_LESS_EQUAL_THAN     shift, and go to state 54
+
+    $default  reduce using rule 66 (expr)
+
+    Conflict between rule 66 and token OP_AND resolved as shift (OP_DIV < OP_AND).
+    Conflict between rule 66 and token OP_OR resolved as shift (OP_DIV < OP_OR).
+    Conflict between rule 66 and token OP_MUL resolved as reduce (%left OP_MUL).
+    Conflict between rule 66 and token OP_DIV resolved as reduce (%left OP_DIV).
+    Conflict between rule 66 and token OP_MOD resolved as reduce (%left OP_MOD).
+    Conflict between rule 66 and token OP_ADD resolved as shift (OP_DIV < OP_ADD).
+    Conflict between rule 66 and token OP_SUB resolved as shift (OP_DIV < OP_SUB).
+    Conflict between rule 66 and token OP_EQUAL resolved as shift (OP_DIV < OP_EQUAL).
+    Conflict between rule 66 and token OP_NOT_EQUAL resolved as shift (OP_DIV < OP_NOT_EQUAL).
+    Conflict between rule 66 and token OP_GREATER_THAN resolved as shift (OP_DIV < OP_GREATER_THAN).
+    Conflict between rule 66 and token OP_GREATER_EQUAL_THAN resolved as shift (OP_DIV < OP_GREATER_EQUAL_THAN).
+    Conflict between rule 66 and token OP_LESS_EQUAL_THAN resolved as shift (OP_DIV < OP_LESS_EQUAL_THAN).
+
+
+State 80
+
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   67     | expr OP_MOD expr .  [IDENT, STRING, NUMBER, KW_VAR, KW_IF, KW_WHILE, KW_FUNCTION, OP_NOT, KW_RETURN, BOOLEAN_TRUE, BOOLEAN_FALSE, DELIM_SEMICOLON, DELIM_COMMA, DELIM_CURLY_RIGHT_BRACKET, DELIM_COLON, DELIM_LEFT_BRACKET, DELIM_RIGHT_PARANTHESIS, DELIM_LEFT_PARANTHESIS, OP_MUL, OP_DIV, OP_MOD]
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                 shift, and go to state 43
+    OP_OR                  shift, and go to state 44
+    OP_ADD                 shift, and go to state 48
+    OP_SUB                 shift, and go to state 49
+    OP_EQUAL               shift, and go to state 50
+    OP_NOT_EQUAL           shift, and go to state 51
+    OP_GREATER_THAN        shift, and go to state 52
+    OP_GREATER_EQUAL_THAN  shift, and go to state 53
+    OP_LESS_EQUAL_THAN     shift, and go to state 54
+
+    $default  reduce using rule 67 (expr)
+
+    Conflict between rule 67 and token OP_AND resolved as shift (OP_MOD < OP_AND).
+    Conflict between rule 67 and token OP_OR resolved as shift (OP_MOD < OP_OR).
+    Conflict between rule 67 and token OP_MUL resolved as reduce (%left OP_MUL).
+    Conflict between rule 67 and token OP_DIV resolved as reduce (%left OP_DIV).
+    Conflict between rule 67 and token OP_MOD resolved as reduce (%left OP_MOD).
+    Conflict between rule 67 and token OP_ADD resolved as shift (OP_MOD < OP_ADD).
+    Conflict between rule 67 and token OP_SUB resolved as shift (OP_MOD < OP_SUB).
+    Conflict between rule 67 and token OP_EQUAL resolved as shift (OP_MOD < OP_EQUAL).
+    Conflict between rule 67 and token OP_NOT_EQUAL resolved as shift (OP_MOD < OP_NOT_EQUAL).
+    Conflict between rule 67 and token OP_GREATER_THAN resolved as shift (OP_MOD < OP_GREATER_THAN).
+    Conflict between rule 67 and token OP_GREATER_EQUAL_THAN resolved as shift (OP_MOD < OP_GREATER_EQUAL_THAN).
+    Conflict between rule 67 and token OP_LESS_EQUAL_THAN resolved as shift (OP_MOD < OP_LESS_EQUAL_THAN).
+
+
+State 81
+
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   68     | expr OP_ADD expr .  [IDENT, STRING, NUMBER, KW_VAR, KW_IF, KW_WHILE, KW_FUNCTION, OP_NOT, KW_RETURN, BOOLEAN_TRUE, BOOLEAN_FALSE, DELIM_SEMICOLON, DELIM_COMMA, DELIM_CURLY_RIGHT_BRACKET, DELIM_COLON, DELIM_LEFT_BRACKET, DELIM_RIGHT_PARANTHESIS, DELIM_LEFT_PARANTHESIS, OP_MUL, OP_DIV, OP_MOD, OP_ADD, OP_SUB]
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                 shift, and go to state 43
+    OP_OR                  shift, and go to state 44
+    OP_EQUAL               shift, and go to state 50
+    OP_NOT_EQUAL           shift, and go to state 51
+    OP_GREATER_THAN        shift, and go to state 52
+    OP_GREATER_EQUAL_THAN  shift, and go to state 53
+    OP_LESS_EQUAL_THAN     shift, and go to state 54
+
+    $default  reduce using rule 68 (expr)
+
+    Conflict between rule 68 and token OP_AND resolved as shift (OP_ADD < OP_AND).
+    Conflict between rule 68 and token OP_OR resolved as shift (OP_ADD < OP_OR).
+    Conflict between rule 68 and token OP_MUL resolved as reduce (OP_MUL < OP_ADD).
+    Conflict between rule 68 and token OP_DIV resolved as reduce (OP_DIV < OP_ADD).
+    Conflict between rule 68 and token OP_MOD resolved as reduce (OP_MOD < OP_ADD).
+    Conflict between rule 68 and token OP_ADD resolved as reduce (%left OP_ADD).
+    Conflict between rule 68 and token OP_SUB resolved as reduce (%left OP_SUB).
+    Conflict between rule 68 and token OP_EQUAL resolved as shift (OP_ADD < OP_EQUAL).
+    Conflict between rule 68 and token OP_NOT_EQUAL resolved as shift (OP_ADD < OP_NOT_EQUAL).
+    Conflict between rule 68 and token OP_GREATER_THAN resolved as shift (OP_ADD < OP_GREATER_THAN).
+    Conflict between rule 68 and token OP_GREATER_EQUAL_THAN resolved as shift (OP_ADD < OP_GREATER_EQUAL_THAN).
+    Conflict between rule 68 and token OP_LESS_EQUAL_THAN resolved as shift (OP_ADD < OP_LESS_EQUAL_THAN).
+
+
+State 82
+
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   69     | expr OP_SUB expr .  [IDENT, STRING, NUMBER, KW_VAR, KW_IF, KW_WHILE, KW_FUNCTION, OP_NOT, KW_RETURN, BOOLEAN_TRUE, BOOLEAN_FALSE, DELIM_SEMICOLON, DELIM_COMMA, DELIM_CURLY_RIGHT_BRACKET, DELIM_COLON, DELIM_LEFT_BRACKET, DELIM_RIGHT_PARANTHESIS, DELIM_LEFT_PARANTHESIS, OP_MUL, OP_DIV, OP_MOD, OP_ADD, OP_SUB]
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                 shift, and go to state 43
+    OP_OR                  shift, and go to state 44
+    OP_EQUAL               shift, and go to state 50
+    OP_NOT_EQUAL           shift, and go to state 51
+    OP_GREATER_THAN        shift, and go to state 52
+    OP_GREATER_EQUAL_THAN  shift, and go to state 53
+    OP_LESS_EQUAL_THAN     shift, and go to state 54
+
+    $default  reduce using rule 69 (expr)
+
+    Conflict between rule 69 and token OP_AND resolved as shift (OP_SUB < OP_AND).
+    Conflict between rule 69 and token OP_OR resolved as shift (OP_SUB < OP_OR).
+    Conflict between rule 69 and token OP_MUL resolved as reduce (OP_MUL < OP_SUB).
+    Conflict between rule 69 and token OP_DIV resolved as reduce (OP_DIV < OP_SUB).
+    Conflict between rule 69 and token OP_MOD resolved as reduce (OP_MOD < OP_SUB).
+    Conflict between rule 69 and token OP_ADD resolved as reduce (%left OP_ADD).
+    Conflict between rule 69 and token OP_SUB resolved as reduce (%left OP_SUB).
+    Conflict between rule 69 and token OP_EQUAL resolved as shift (OP_SUB < OP_EQUAL).
+    Conflict between rule 69 and token OP_NOT_EQUAL resolved as shift (OP_SUB < OP_NOT_EQUAL).
+    Conflict between rule 69 and token OP_GREATER_THAN resolved as shift (OP_SUB < OP_GREATER_THAN).
+    Conflict between rule 69 and token OP_GREATER_EQUAL_THAN resolved as shift (OP_SUB < OP_GREATER_EQUAL_THAN).
+    Conflict between rule 69 and token OP_LESS_EQUAL_THAN resolved as shift (OP_SUB < OP_LESS_EQUAL_THAN).
+
+
+State 83
+
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   73     | expr OP_EQUAL expr .  [IDENT, STRING, NUMBER, KW_VAR, KW_IF, KW_WHILE, KW_FUNCTION, OP_NOT, KW_RETURN, BOOLEAN_TRUE, BOOLEAN_FALSE, DELIM_SEMICOLON, DELIM_COMMA, DELIM_CURLY_RIGHT_BRACKET, DELIM_COLON, DELIM_LEFT_BRACKET, DELIM_RIGHT_PARANTHESIS, DELIM_LEFT_PARANTHESIS, OP_MUL, OP_DIV, OP_MOD, OP_ADD, OP_SUB, OP_EQUAL, OP_NOT_EQUAL, OP_GREATER_THAN, OP_GREATER_EQUAL_THAN, OP_LESS_EQUAL_THAN]
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND  shift, and go to state 43
+    OP_OR   shift, and go to state 44
+
+    $default  reduce using rule 73 (expr)
+
+    Conflict between rule 73 and token OP_AND resolved as shift (OP_EQUAL < OP_AND).
+    Conflict between rule 73 and token OP_OR resolved as shift (OP_EQUAL < OP_OR).
+    Conflict between rule 73 and token OP_MUL resolved as reduce (OP_MUL < OP_EQUAL).
+    Conflict between rule 73 and token OP_DIV resolved as reduce (OP_DIV < OP_EQUAL).
+    Conflict between rule 73 and token OP_MOD resolved as reduce (OP_MOD < OP_EQUAL).
+    Conflict between rule 73 and token OP_ADD resolved as reduce (OP_ADD < OP_EQUAL).
+    Conflict between rule 73 and token OP_SUB resolved as reduce (OP_SUB < OP_EQUAL).
+    Conflict between rule 73 and token OP_EQUAL resolved as reduce (%left OP_EQUAL).
+    Conflict between rule 73 and token OP_NOT_EQUAL resolved as reduce (%left OP_NOT_EQUAL).
+    Conflict between rule 73 and token OP_GREATER_THAN resolved as reduce (%left OP_GREATER_THAN).
+    Conflict between rule 73 and token OP_GREATER_EQUAL_THAN resolved as reduce (%left OP_GREATER_EQUAL_THAN).
+    Conflict between rule 73 and token OP_LESS_EQUAL_THAN resolved as reduce (%left OP_LESS_EQUAL_THAN).
+
+
+State 84
+
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   74     | expr OP_NOT_EQUAL expr .  [IDENT, STRING, NUMBER, KW_VAR, KW_IF, KW_WHILE, KW_FUNCTION, OP_NOT, KW_RETURN, BOOLEAN_TRUE, BOOLEAN_FALSE, DELIM_SEMICOLON, DELIM_COMMA, DELIM_CURLY_RIGHT_BRACKET, DELIM_COLON, DELIM_LEFT_BRACKET, DELIM_RIGHT_PARANTHESIS, DELIM_LEFT_PARANTHESIS, OP_MUL, OP_DIV, OP_MOD, OP_ADD, OP_SUB, OP_EQUAL, OP_NOT_EQUAL, OP_GREATER_THAN, OP_GREATER_EQUAL_THAN, OP_LESS_EQUAL_THAN]
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND  shift, and go to state 43
+    OP_OR   shift, and go to state 44
+
+    $default  reduce using rule 74 (expr)
+
+    Conflict between rule 74 and token OP_AND resolved as shift (OP_NOT_EQUAL < OP_AND).
+    Conflict between rule 74 and token OP_OR resolved as shift (OP_NOT_EQUAL < OP_OR).
+    Conflict between rule 74 and token OP_MUL resolved as reduce (OP_MUL < OP_NOT_EQUAL).
+    Conflict between rule 74 and token OP_DIV resolved as reduce (OP_DIV < OP_NOT_EQUAL).
+    Conflict between rule 74 and token OP_MOD resolved as reduce (OP_MOD < OP_NOT_EQUAL).
+    Conflict between rule 74 and token OP_ADD resolved as reduce (OP_ADD < OP_NOT_EQUAL).
+    Conflict between rule 74 and token OP_SUB resolved as reduce (OP_SUB < OP_NOT_EQUAL).
+    Conflict between rule 74 and token OP_EQUAL resolved as reduce (%left OP_EQUAL).
+    Conflict between rule 74 and token OP_NOT_EQUAL resolved as reduce (%left OP_NOT_EQUAL).
+    Conflict between rule 74 and token OP_GREATER_THAN resolved as reduce (%left OP_GREATER_THAN).
+    Conflict between rule 74 and token OP_GREATER_EQUAL_THAN resolved as reduce (%left OP_GREATER_EQUAL_THAN).
+    Conflict between rule 74 and token OP_LESS_EQUAL_THAN resolved as reduce (%left OP_LESS_EQUAL_THAN).
+
+
+State 85
+
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   75     | expr OP_GREATER_THAN expr .  [IDENT, STRING, NUMBER, KW_VAR, KW_IF, KW_WHILE, KW_FUNCTION, OP_NOT, KW_RETURN, BOOLEAN_TRUE, BOOLEAN_FALSE, DELIM_SEMICOLON, DELIM_COMMA, DELIM_CURLY_RIGHT_BRACKET, DELIM_COLON, DELIM_LEFT_BRACKET, DELIM_RIGHT_PARANTHESIS, DELIM_LEFT_PARANTHESIS, OP_MUL, OP_DIV, OP_MOD, OP_ADD, OP_SUB, OP_EQUAL, OP_NOT_EQUAL, OP_GREATER_THAN, OP_GREATER_EQUAL_THAN, OP_LESS_EQUAL_THAN]
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND  shift, and go to state 43
+    OP_OR   shift, and go to state 44
+
+    $default  reduce using rule 75 (expr)
+
+    Conflict between rule 75 and token OP_AND resolved as shift (OP_GREATER_THAN < OP_AND).
+    Conflict between rule 75 and token OP_OR resolved as shift (OP_GREATER_THAN < OP_OR).
+    Conflict between rule 75 and token OP_MUL resolved as reduce (OP_MUL < OP_GREATER_THAN).
+    Conflict between rule 75 and token OP_DIV resolved as reduce (OP_DIV < OP_GREATER_THAN).
+    Conflict between rule 75 and token OP_MOD resolved as reduce (OP_MOD < OP_GREATER_THAN).
+    Conflict between rule 75 and token OP_ADD resolved as reduce (OP_ADD < OP_GREATER_THAN).
+    Conflict between rule 75 and token OP_SUB resolved as reduce (OP_SUB < OP_GREATER_THAN).
+    Conflict between rule 75 and token OP_EQUAL resolved as reduce (%left OP_EQUAL).
+    Conflict between rule 75 and token OP_NOT_EQUAL resolved as reduce (%left OP_NOT_EQUAL).
+    Conflict between rule 75 and token OP_GREATER_THAN resolved as reduce (%left OP_GREATER_THAN).
+    Conflict between rule 75 and token OP_GREATER_EQUAL_THAN resolved as reduce (%left OP_GREATER_EQUAL_THAN).
+    Conflict between rule 75 and token OP_LESS_EQUAL_THAN resolved as reduce (%left OP_LESS_EQUAL_THAN).
+
+
+State 86
+
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   76     | expr OP_GREATER_EQUAL_THAN expr .  [IDENT, STRING, NUMBER, KW_VAR, KW_IF, KW_WHILE, KW_FUNCTION, OP_NOT, KW_RETURN, BOOLEAN_TRUE, BOOLEAN_FALSE, DELIM_SEMICOLON, DELIM_COMMA, DELIM_CURLY_RIGHT_BRACKET, DELIM_COLON, DELIM_LEFT_BRACKET, DELIM_RIGHT_PARANTHESIS, DELIM_LEFT_PARANTHESIS, OP_MUL, OP_DIV, OP_MOD, OP_ADD, OP_SUB, OP_EQUAL, OP_NOT_EQUAL, OP_GREATER_THAN, OP_GREATER_EQUAL_THAN, OP_LESS_EQUAL_THAN]
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND  shift, and go to state 43
+    OP_OR   shift, and go to state 44
+
+    $default  reduce using rule 76 (expr)
+
+    Conflict between rule 76 and token OP_AND resolved as shift (OP_GREATER_EQUAL_THAN < OP_AND).
+    Conflict between rule 76 and token OP_OR resolved as shift (OP_GREATER_EQUAL_THAN < OP_OR).
+    Conflict between rule 76 and token OP_MUL resolved as reduce (OP_MUL < OP_GREATER_EQUAL_THAN).
+    Conflict between rule 76 and token OP_DIV resolved as reduce (OP_DIV < OP_GREATER_EQUAL_THAN).
+    Conflict between rule 76 and token OP_MOD resolved as reduce (OP_MOD < OP_GREATER_EQUAL_THAN).
+    Conflict between rule 76 and token OP_ADD resolved as reduce (OP_ADD < OP_GREATER_EQUAL_THAN).
+    Conflict between rule 76 and token OP_SUB resolved as reduce (OP_SUB < OP_GREATER_EQUAL_THAN).
+    Conflict between rule 76 and token OP_EQUAL resolved as reduce (%left OP_EQUAL).
+    Conflict between rule 76 and token OP_NOT_EQUAL resolved as reduce (%left OP_NOT_EQUAL).
+    Conflict between rule 76 and token OP_GREATER_THAN resolved as reduce (%left OP_GREATER_THAN).
+    Conflict between rule 76 and token OP_GREATER_EQUAL_THAN resolved as reduce (%left OP_GREATER_EQUAL_THAN).
+    Conflict between rule 76 and token OP_LESS_EQUAL_THAN resolved as reduce (%left OP_LESS_EQUAL_THAN).
+
+
+State 87
+
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   77     | expr OP_LESS_EQUAL_THAN expr .  [IDENT, STRING, NUMBER, KW_VAR, KW_IF, KW_WHILE, KW_FUNCTION, OP_NOT, KW_RETURN, BOOLEAN_TRUE, BOOLEAN_FALSE, DELIM_SEMICOLON, DELIM_COMMA, DELIM_CURLY_RIGHT_BRACKET, DELIM_COLON, DELIM_LEFT_BRACKET, DELIM_RIGHT_PARANTHESIS, DELIM_LEFT_PARANTHESIS, OP_MUL, OP_DIV, OP_MOD, OP_ADD, OP_SUB, OP_EQUAL, OP_NOT_EQUAL, OP_GREATER_THAN, OP_GREATER_EQUAL_THAN, OP_LESS_EQUAL_THAN]
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND  shift, and go to state 43
+    OP_OR   shift, and go to state 44
+
+    $default  reduce using rule 77 (expr)
+
+    Conflict between rule 77 and token OP_AND resolved as shift (OP_LESS_EQUAL_THAN < OP_AND).
+    Conflict between rule 77 and token OP_OR resolved as shift (OP_LESS_EQUAL_THAN < OP_OR).
+    Conflict between rule 77 and token OP_MUL resolved as reduce (OP_MUL < OP_LESS_EQUAL_THAN).
+    Conflict between rule 77 and token OP_DIV resolved as reduce (OP_DIV < OP_LESS_EQUAL_THAN).
+    Conflict between rule 77 and token OP_MOD resolved as reduce (OP_MOD < OP_LESS_EQUAL_THAN).
+    Conflict between rule 77 and token OP_ADD resolved as reduce (OP_ADD < OP_LESS_EQUAL_THAN).
+    Conflict between rule 77 and token OP_SUB resolved as reduce (OP_SUB < OP_LESS_EQUAL_THAN).
+    Conflict between rule 77 and token OP_EQUAL resolved as reduce (%left OP_EQUAL).
+    Conflict between rule 77 and token OP_NOT_EQUAL resolved as reduce (%left OP_NOT_EQUAL).
+    Conflict between rule 77 and token OP_GREATER_THAN resolved as reduce (%left OP_GREATER_THAN).
+    Conflict between rule 77 and token OP_GREATER_EQUAL_THAN resolved as reduce (%left OP_GREATER_EQUAL_THAN).
+    Conflict between rule 77 and token OP_LESS_EQUAL_THAN resolved as reduce (%left OP_LESS_EQUAL_THAN).
+
+
+State 88
+
+    1 program: decl_list KW_FUNCTION KW_START DELIM_RIGHT_PARANTHESIS . parameter_decl_list_main DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET
+   16 parameter_decl_list_main: . %empty  [DELIM_LEFT_PARANTHESIS]
+   17                         | . parameter_decl_init_main DELIM_COMMA parameter_decl_init_main
+   18                         | . parameter_decl_init_main
+   19 parameter_decl_init_main: . parameter_decl_id_main DELIM_COLON type_spec_main
+   20 parameter_decl_id_main: . IDENT
+   21                       | . IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+
+    IDENT  shift, and go to state 101
+
+    $default  reduce using rule 16 (parameter_decl_list_main)
+
+    parameter_decl_list_main  go to state 102
+    parameter_decl_init_main  go to state 103
+    parameter_decl_id_main    go to state 104
+
+
+State 89
+
+   49 var_decl_id: IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET .
+
+    $default  reduce using rule 49 (var_decl_id)
+
+
+State 90
+
+   43 var_decl_body: var_decl_list DELIM_COLON type_spec DELIM_SEMICOLON .
+
+    $default  reduce using rule 43 (var_decl_body)
+
+
+State 91
+
+   41 const_decl_id: IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET .  [OP_ASSIGN]
+   58 expr: IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET .  [KW_VAR, KW_FUNCTION, OP_AND, OP_OR, DELIM_COMMA, DELIM_COLON, OP_MUL, OP_DIV, OP_MOD, OP_ADD, OP_SUB, OP_EQUAL, OP_NOT_EQUAL, OP_GREATER_THAN, OP_GREATER_EQUAL_THAN, OP_LESS_EQUAL_THAN]
+
+    OP_ASSIGN  reduce using rule 41 (const_decl_id)
+    $default   reduce using rule 58 (expr)
+
+
+State 92
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   61     | IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA . expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 105
+
+
+State 93
+
+   60 expr: IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS .
+
+    $default  reduce using rule 60 (expr)
+
+
+State 94
+
+   58 expr: IDENT DELIM_RIGHT_BRACKET expr . DELIM_LEFT_BRACKET
+   65     | expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                 shift, and go to state 43
+    OP_OR                  shift, and go to state 44
+    DELIM_LEFT_BRACKET     shift, and go to state 106
+    OP_MUL                 shift, and go to state 45
+    OP_DIV                 shift, and go to state 46
+    OP_MOD                 shift, and go to state 47
+    OP_ADD                 shift, and go to state 48
+    OP_SUB                 shift, and go to state 49
+    OP_EQUAL               shift, and go to state 50
+    OP_NOT_EQUAL           shift, and go to state 51
+    OP_GREATER_THAN        shift, and go to state 52
+    OP_GREATER_EQUAL_THAN  shift, and go to state 53
+    OP_LESS_EQUAL_THAN     shift, and go to state 54
+
+
+State 95
+
+   32 const_decl_body: const_decl_list DELIM_COLON type_spec DELIM_SEMICOLON .
+
+    $default  reduce using rule 32 (const_decl_body)
+
+
+State 96
+
+   28 parameter_decl_id: IDENT .  [DELIM_COLON]
+   29                  | IDENT . DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+   56 expr: IDENT .  [OP_AND, OP_OR, DELIM_LEFT_PARANTHESIS, OP_MUL, OP_DIV, OP_MOD, OP_ADD, OP_SUB, OP_EQUAL, OP_NOT_EQUAL, OP_GREATER_THAN, OP_GREATER_EQUAL_THAN, OP_LESS_EQUAL_THAN]
+   58     | IDENT . DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   60     | IDENT . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | IDENT . DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | IDENT . DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+
+    DELIM_RIGHT_BRACKET      shift, and go to state 107
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 34
+
+    DELIM_COLON  reduce using rule 28 (parameter_decl_id)
+    $default     reduce using rule 56 (expr)
+
+
+State 97
+
+   25 parameter_decl_list: parameter_decl_list . DELIM_COMMA parameter_decl_init
+   39 const_rule: const_decl_id OP_ASSIGN DELIM_RIGHT_PARANTHESIS parameter_decl_list . DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+
+    DELIM_COMMA             shift, and go to state 108
+    DELIM_LEFT_PARANTHESIS  shift, and go to state 109
+
+
+State 98
+
+   26 parameter_decl_list: parameter_decl_init .
+
+    $default  reduce using rule 26 (parameter_decl_list)
+
+
+State 99
+
+   27 parameter_decl_init: parameter_decl_id . DELIM_COLON type_spec
+
+    DELIM_COLON  shift, and go to state 110
+
+
+State 100
+
+   39 const_rule: const_decl_id OP_ASSIGN . DELIM_RIGHT_PARANTHESIS parameter_decl_list DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 111
+
+
+State 101
+
+   20 parameter_decl_id_main: IDENT .  [DELIM_COLON]
+   21                       | IDENT . DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+
+    DELIM_RIGHT_BRACKET  shift, and go to state 112
+
+    $default  reduce using rule 20 (parameter_decl_id_main)
+
+
+State 102
+
+    1 program: decl_list KW_FUNCTION KW_START DELIM_RIGHT_PARANTHESIS parameter_decl_list_main . DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET
+
+    DELIM_LEFT_PARANTHESIS  shift, and go to state 113
+
+
+State 103
+
+   17 parameter_decl_list_main: parameter_decl_init_main . DELIM_COMMA parameter_decl_init_main
+   18                         | parameter_decl_init_main .  [DELIM_LEFT_PARANTHESIS]
+
+    DELIM_COMMA  shift, and go to state 114
+
+    $default  reduce using rule 18 (parameter_decl_list_main)
+
+
+State 104
+
+   19 parameter_decl_init_main: parameter_decl_id_main . DELIM_COLON type_spec_main
+
+    DELIM_COLON  shift, and go to state 115
+
+
+State 105
+
+   61 expr: IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr . DELIM_LEFT_PARANTHESIS
+   65     | expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                  shift, and go to state 43
+    OP_OR                   shift, and go to state 44
+    DELIM_LEFT_PARANTHESIS  shift, and go to state 116
+    OP_MUL                  shift, and go to state 45
+    OP_DIV                  shift, and go to state 46
+    OP_MOD                  shift, and go to state 47
+    OP_ADD                  shift, and go to state 48
+    OP_SUB                  shift, and go to state 49
+    OP_EQUAL                shift, and go to state 50
+    OP_NOT_EQUAL            shift, and go to state 51
+    OP_GREATER_THAN         shift, and go to state 52
+    OP_GREATER_EQUAL_THAN   shift, and go to state 53
+    OP_LESS_EQUAL_THAN      shift, and go to state 54
+
+
+State 106
+
+   58 expr: IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET .
+
+    $default  reduce using rule 58 (expr)
+
+
+State 107
+
+   29 parameter_decl_id: IDENT DELIM_RIGHT_BRACKET . DELIM_LEFT_BRACKET
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   58     | IDENT DELIM_RIGHT_BRACKET . expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_LEFT_BRACKET       shift, and go to state 117
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 94
+
+
+State 108
+
+   25 parameter_decl_list: parameter_decl_list DELIM_COMMA . parameter_decl_init
+   27 parameter_decl_init: . parameter_decl_id DELIM_COLON type_spec
+   28 parameter_decl_id: . IDENT
+   29                  | . IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+
+    IDENT  shift, and go to state 118
+
+    parameter_decl_init  go to state 119
+    parameter_decl_id    go to state 99
+
+
+State 109
+
+   39 const_rule: const_decl_id OP_ASSIGN DELIM_RIGHT_PARANTHESIS parameter_decl_list DELIM_LEFT_PARANTHESIS . DELIM_COLON type_spec OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+
+    DELIM_COLON  shift, and go to state 120
+
+
+State 110
+
+   27 parameter_decl_init: parameter_decl_id DELIM_COLON . type_spec
+   51 type_spec: . KW_NUMBER
+   52          | . KW_BOOLEAN
+   53          | . KW_STRING
+   54          | . KW_VOID
+
+    KW_NUMBER   shift, and go to state 59
+    KW_BOOLEAN  shift, and go to state 60
+    KW_STRING   shift, and go to state 61
+    KW_VOID     shift, and go to state 62
+
+    type_spec  go to state 121
+
+
+State 111
+
+   24 parameter_decl_list: . %empty  [DELIM_COMMA, DELIM_LEFT_PARANTHESIS]
+   25                    | . parameter_decl_list DELIM_COMMA parameter_decl_init
+   26                    | . parameter_decl_init
+   27 parameter_decl_init: . parameter_decl_id DELIM_COLON type_spec
+   28 parameter_decl_id: . IDENT
+   29                  | . IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+   39 const_rule: const_decl_id OP_ASSIGN DELIM_RIGHT_PARANTHESIS . parameter_decl_list DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+
+    IDENT  shift, and go to state 118
+
+    $default  reduce using rule 24 (parameter_decl_list)
+
+    parameter_decl_list  go to state 97
+    parameter_decl_init  go to state 98
+    parameter_decl_id    go to state 99
+
+
+State 112
+
+   21 parameter_decl_id_main: IDENT DELIM_RIGHT_BRACKET . DELIM_LEFT_BRACKET
+
+    DELIM_LEFT_BRACKET  shift, and go to state 122
+
+
+State 113
+
+    1 program: decl_list KW_FUNCTION KW_START DELIM_RIGHT_PARANTHESIS parameter_decl_list_main DELIM_LEFT_PARANTHESIS . DELIM_COLON type_spec DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET
+
+    DELIM_COLON  shift, and go to state 123
+
+
+State 114
+
+   17 parameter_decl_list_main: parameter_decl_init_main DELIM_COMMA . parameter_decl_init_main
+   19 parameter_decl_init_main: . parameter_decl_id_main DELIM_COLON type_spec_main
+   20 parameter_decl_id_main: . IDENT
+   21                       | . IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+
+    IDENT  shift, and go to state 101
+
+    parameter_decl_init_main  go to state 124
+    parameter_decl_id_main    go to state 104
+
+
+State 115
+
+   19 parameter_decl_init_main: parameter_decl_id_main DELIM_COLON . type_spec_main
+   22 type_spec_main: . KW_NUMBER
+   23               | . KW_STRING
+
+    KW_NUMBER  shift, and go to state 125
+    KW_STRING  shift, and go to state 126
+
+    type_spec_main  go to state 127
+
+
+State 116
+
+   61 expr: IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS .
+
+    $default  reduce using rule 61 (expr)
+
+
+State 117
+
+   29 parameter_decl_id: IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET .
+
+    $default  reduce using rule 29 (parameter_decl_id)
+
+
+State 118
+
+   28 parameter_decl_id: IDENT .  [DELIM_COLON]
+   29                  | IDENT . DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+
+    DELIM_RIGHT_BRACKET  shift, and go to state 128
+
+    $default  reduce using rule 28 (parameter_decl_id)
+
+
+State 119
+
+   25 parameter_decl_list: parameter_decl_list DELIM_COMMA parameter_decl_init .
+
+    $default  reduce using rule 25 (parameter_decl_list)
+
+
+State 120
+
+   39 const_rule: const_decl_id OP_ASSIGN DELIM_RIGHT_PARANTHESIS parameter_decl_list DELIM_LEFT_PARANTHESIS DELIM_COLON . type_spec OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   51 type_spec: . KW_NUMBER
+   52          | . KW_BOOLEAN
+   53          | . KW_STRING
+   54          | . KW_VOID
+
+    KW_NUMBER   shift, and go to state 59
+    KW_BOOLEAN  shift, and go to state 60
+    KW_STRING   shift, and go to state 61
+    KW_VOID     shift, and go to state 62
+
+    type_spec  go to state 129
+
+
+State 121
+
+   27 parameter_decl_init: parameter_decl_id DELIM_COLON type_spec .
+
+    $default  reduce using rule 27 (parameter_decl_init)
+
+
+State 122
+
+   21 parameter_decl_id_main: IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET .
+
+    $default  reduce using rule 21 (parameter_decl_id_main)
+
+
+State 123
+
+    1 program: decl_list KW_FUNCTION KW_START DELIM_RIGHT_PARANTHESIS parameter_decl_list_main DELIM_LEFT_PARANTHESIS DELIM_COLON . type_spec DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET
+   51 type_spec: . KW_NUMBER
+   52          | . KW_BOOLEAN
+   53          | . KW_STRING
+   54          | . KW_VOID
+
+    KW_NUMBER   shift, and go to state 59
+    KW_BOOLEAN  shift, and go to state 60
+    KW_STRING   shift, and go to state 61
+    KW_VOID     shift, and go to state 62
+
+    type_spec  go to state 130
+
+
+State 124
+
+   17 parameter_decl_list_main: parameter_decl_init_main DELIM_COMMA parameter_decl_init_main .
+
+    $default  reduce using rule 17 (parameter_decl_list_main)
+
+
+State 125
+
+   22 type_spec_main: KW_NUMBER .
+
+    $default  reduce using rule 22 (type_spec_main)
+
+
+State 126
+
+   23 type_spec_main: KW_STRING .
+
+    $default  reduce using rule 23 (type_spec_main)
+
+
+State 127
+
+   19 parameter_decl_init_main: parameter_decl_id_main DELIM_COLON type_spec_main .
+
+    $default  reduce using rule 19 (parameter_decl_init_main)
+
+
+State 128
+
+   29 parameter_decl_id: IDENT DELIM_RIGHT_BRACKET . DELIM_LEFT_BRACKET
+
+    DELIM_LEFT_BRACKET  shift, and go to state 117
+
+
+State 129
+
+   39 const_rule: const_decl_id OP_ASSIGN DELIM_RIGHT_PARANTHESIS parameter_decl_list DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec . OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+
+    OP_LESS_EQUAL_THAN  shift, and go to state 131
+
+
+State 130
+
+    1 program: decl_list KW_FUNCTION KW_START DELIM_RIGHT_PARANTHESIS parameter_decl_list_main DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec . DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET
+
+    DELIM_CURLY_RIGHT_BRACKET  shift, and go to state 132
+
+
+State 131
+
+   39 const_rule: const_decl_id OP_ASSIGN DELIM_RIGHT_PARANTHESIS parameter_decl_list DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec OP_LESS_EQUAL_THAN . DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+
+    DELIM_CURLY_RIGHT_BRACKET  shift, and go to state 133
+
+
+State 132
+
+    1 program: decl_list KW_FUNCTION KW_START DELIM_RIGHT_PARANTHESIS parameter_decl_list_main DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec DELIM_CURLY_RIGHT_BRACKET . body DELIM_CURLY_LEFT_BRACKET
+    2 body: . body statements
+    3     | . statements
+    4 statements: . KW_VAR var_decl_body
+    5           | . IDENT OP_ASSIGN expr DELIM_SEMICOLON
+    6           | . expr DELIM_SEMICOLON
+    7           | . KW_WHILE expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+    8           | . if_statement
+    9           | . epilogue
+   10 if_statement: . KW_IF expr body KW_ELSE DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   11             | . KW_IF expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   12 epilogue: . KW_RETURN DELIM_SEMICOLON
+   13         | . KW_RETURN expr DELIM_SEMICOLON
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 134
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    KW_VAR                   shift, and go to state 135
+    KW_IF                    shift, and go to state 136
+    KW_WHILE                 shift, and go to state 137
+    OP_NOT                   shift, and go to state 14
+    KW_RETURN                shift, and go to state 138
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    body          go to state 139
+    statements    go to state 140
+    if_statement  go to state 141
+    epilogue      go to state 142
+    expr          go to state 143
+
+
+State 133
+
+    2 body: . body statements
+    3     | . statements
+    4 statements: . KW_VAR var_decl_body
+    5           | . IDENT OP_ASSIGN expr DELIM_SEMICOLON
+    6           | . expr DELIM_SEMICOLON
+    7           | . KW_WHILE expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+    8           | . if_statement
+    9           | . epilogue
+   10 if_statement: . KW_IF expr body KW_ELSE DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   11             | . KW_IF expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   12 epilogue: . KW_RETURN DELIM_SEMICOLON
+   13         | . KW_RETURN expr DELIM_SEMICOLON
+   39 const_rule: const_decl_id OP_ASSIGN DELIM_RIGHT_PARANTHESIS parameter_decl_list DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET . body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 134
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    KW_VAR                   shift, and go to state 135
+    KW_IF                    shift, and go to state 136
+    KW_WHILE                 shift, and go to state 137
+    OP_NOT                   shift, and go to state 14
+    KW_RETURN                shift, and go to state 138
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    body          go to state 144
+    statements    go to state 140
+    if_statement  go to state 141
+    epilogue      go to state 142
+    expr          go to state 143
+
+
+State 134
+
+    5 statements: IDENT . OP_ASSIGN expr DELIM_SEMICOLON
+   56 expr: IDENT .  [OP_AND, OP_OR, DELIM_SEMICOLON, OP_MUL, OP_DIV, OP_MOD, OP_ADD, OP_SUB, OP_EQUAL, OP_NOT_EQUAL, OP_GREATER_THAN, OP_GREATER_EQUAL_THAN, OP_LESS_EQUAL_THAN]
+   58     | IDENT . DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   60     | IDENT . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | IDENT . DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | IDENT . DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+
+    OP_ASSIGN                shift, and go to state 145
+    DELIM_RIGHT_BRACKET      shift, and go to state 69
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 34
+
+    $default  reduce using rule 56 (expr)
+
+
+State 135
+
+    4 statements: KW_VAR . var_decl_body
+   43 var_decl_body: . var_decl_list DELIM_COLON type_spec DELIM_SEMICOLON
+   44 var_decl_list: . var_decl_list DELIM_COMMA var_decl_init
+   45              | . var_decl_init
+   46 var_decl_init: . var_decl_id
+   47              | . var_decl_id OP_ASSIGN expr
+   48 var_decl_id: . IDENT
+   49            | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   50            | . IDENT DELIM_RIGHT_BRACKET DELIM_LEFT_BRACKET
+
+    IDENT  shift, and go to state 6
+
+    var_decl_body  go to state 146
+    var_decl_list  go to state 8
+    var_decl_init  go to state 9
+    var_decl_id    go to state 10
+
+
+State 136
+
+   10 if_statement: KW_IF . expr body KW_ELSE DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   11             | KW_IF . expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 147
+
+
+State 137
+
+    7 statements: KW_WHILE . expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 148
+
+
+State 138
+
+   12 epilogue: KW_RETURN . DELIM_SEMICOLON
+   13         | KW_RETURN . expr DELIM_SEMICOLON
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_SEMICOLON          shift, and go to state 149
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 150
+
+
+State 139
+
+    1 program: decl_list KW_FUNCTION KW_START DELIM_RIGHT_PARANTHESIS parameter_decl_list_main DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec DELIM_CURLY_RIGHT_BRACKET body . DELIM_CURLY_LEFT_BRACKET
+    2 body: body . statements
+    4 statements: . KW_VAR var_decl_body
+    5           | . IDENT OP_ASSIGN expr DELIM_SEMICOLON
+    6           | . expr DELIM_SEMICOLON
+    7           | . KW_WHILE expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+    8           | . if_statement
+    9           | . epilogue
+   10 if_statement: . KW_IF expr body KW_ELSE DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   11             | . KW_IF expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   12 epilogue: . KW_RETURN DELIM_SEMICOLON
+   13         | . KW_RETURN expr DELIM_SEMICOLON
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                     shift, and go to state 134
+    STRING                    shift, and go to state 12
+    NUMBER                    shift, and go to state 13
+    KW_VAR                    shift, and go to state 135
+    KW_IF                     shift, and go to state 136
+    KW_WHILE                  shift, and go to state 137
+    OP_NOT                    shift, and go to state 14
+    KW_RETURN                 shift, and go to state 138
+    BOOLEAN_TRUE              shift, and go to state 15
+    BOOLEAN_FALSE             shift, and go to state 16
+    DELIM_CURLY_LEFT_BRACKET  shift, and go to state 151
+    DELIM_RIGHT_PARANTHESIS   shift, and go to state 17
+    OP_ADD                    shift, and go to state 18
+    OP_SUB                    shift, and go to state 19
+
+    statements    go to state 152
+    if_statement  go to state 141
+    epilogue      go to state 142
+    expr          go to state 143
+
+
+State 140
+
+    3 body: statements .
+
+    $default  reduce using rule 3 (body)
+
+
+State 141
+
+    8 statements: if_statement .
+
+    $default  reduce using rule 8 (statements)
+
+
+State 142
+
+    9 statements: epilogue .
+
+    $default  reduce using rule 9 (statements)
+
+
+State 143
+
+    6 statements: expr . DELIM_SEMICOLON
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                 shift, and go to state 43
+    OP_OR                  shift, and go to state 44
+    DELIM_SEMICOLON        shift, and go to state 153
+    OP_MUL                 shift, and go to state 45
+    OP_DIV                 shift, and go to state 46
+    OP_MOD                 shift, and go to state 47
+    OP_ADD                 shift, and go to state 48
+    OP_SUB                 shift, and go to state 49
+    OP_EQUAL               shift, and go to state 50
+    OP_NOT_EQUAL           shift, and go to state 51
+    OP_GREATER_THAN        shift, and go to state 52
+    OP_GREATER_EQUAL_THAN  shift, and go to state 53
+    OP_LESS_EQUAL_THAN     shift, and go to state 54
+
+
+State 144
+
+    2 body: body . statements
+    4 statements: . KW_VAR var_decl_body
+    5           | . IDENT OP_ASSIGN expr DELIM_SEMICOLON
+    6           | . expr DELIM_SEMICOLON
+    7           | . KW_WHILE expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+    8           | . if_statement
+    9           | . epilogue
+   10 if_statement: . KW_IF expr body KW_ELSE DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   11             | . KW_IF expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   12 epilogue: . KW_RETURN DELIM_SEMICOLON
+   13         | . KW_RETURN expr DELIM_SEMICOLON
+   39 const_rule: const_decl_id OP_ASSIGN DELIM_RIGHT_PARANTHESIS parameter_decl_list DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET body . DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                     shift, and go to state 134
+    STRING                    shift, and go to state 12
+    NUMBER                    shift, and go to state 13
+    KW_VAR                    shift, and go to state 135
+    KW_IF                     shift, and go to state 136
+    KW_WHILE                  shift, and go to state 137
+    OP_NOT                    shift, and go to state 14
+    KW_RETURN                 shift, and go to state 138
+    BOOLEAN_TRUE              shift, and go to state 15
+    BOOLEAN_FALSE             shift, and go to state 16
+    DELIM_CURLY_LEFT_BRACKET  shift, and go to state 154
+    DELIM_RIGHT_PARANTHESIS   shift, and go to state 17
+    OP_ADD                    shift, and go to state 18
+    OP_SUB                    shift, and go to state 19
+
+    statements    go to state 152
+    if_statement  go to state 141
+    epilogue      go to state 142
+    expr          go to state 143
+
+
+State 145
+
+    5 statements: IDENT OP_ASSIGN . expr DELIM_SEMICOLON
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 155
+
+
+State 146
+
+    4 statements: KW_VAR var_decl_body .
+
+    $default  reduce using rule 4 (statements)
+
+
+State 147
+
+    2 body: . body statements
+    3     | . statements
+    4 statements: . KW_VAR var_decl_body
+    5           | . IDENT OP_ASSIGN expr DELIM_SEMICOLON
+    6           | . expr DELIM_SEMICOLON
+    7           | . KW_WHILE expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+    8           | . if_statement
+    9           | . epilogue
+   10 if_statement: . KW_IF expr body KW_ELSE DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   10             | KW_IF expr . body KW_ELSE DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   11             | . KW_IF expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   11             | KW_IF expr . DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   12 epilogue: . KW_RETURN DELIM_SEMICOLON
+   13         | . KW_RETURN expr DELIM_SEMICOLON
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   65     | expr . OP_MUL expr
+   66     | . expr OP_DIV expr
+   66     | expr . OP_DIV expr
+   67     | . expr OP_MOD expr
+   67     | expr . OP_MOD expr
+   68     | . expr OP_ADD expr
+   68     | expr . OP_ADD expr
+   69     | . expr OP_SUB expr
+   69     | expr . OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   73     | expr . OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   78     | expr . OP_AND expr
+   79     | . expr OP_OR expr
+   79     | expr . OP_OR expr
+
+    IDENT                      shift, and go to state 134
+    STRING                     shift, and go to state 12
+    NUMBER                     shift, and go to state 13
+    KW_VAR                     shift, and go to state 135
+    KW_IF                      shift, and go to state 136
+    KW_WHILE                   shift, and go to state 137
+    OP_NOT                     shift, and go to state 14
+    OP_AND                     shift, and go to state 43
+    OP_OR                      shift, and go to state 44
+    KW_RETURN                  shift, and go to state 138
+    BOOLEAN_TRUE               shift, and go to state 15
+    BOOLEAN_FALSE              shift, and go to state 16
+    DELIM_CURLY_RIGHT_BRACKET  shift, and go to state 156
+    DELIM_RIGHT_PARANTHESIS    shift, and go to state 17
+    OP_MUL                     shift, and go to state 45
+    OP_DIV                     shift, and go to state 46
+    OP_MOD                     shift, and go to state 47
+    OP_ADD                     shift, and go to state 157
+    OP_SUB                     shift, and go to state 158
+    OP_EQUAL                   shift, and go to state 50
+    OP_NOT_EQUAL               shift, and go to state 51
+    OP_GREATER_THAN            shift, and go to state 52
+    OP_GREATER_EQUAL_THAN      shift, and go to state 53
+    OP_LESS_EQUAL_THAN         shift, and go to state 54
+
+    body          go to state 159
+    statements    go to state 140
+    if_statement  go to state 141
+    epilogue      go to state 142
+    expr          go to state 143
+
+
+State 148
+
+    7 statements: KW_WHILE expr . DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                     shift, and go to state 43
+    OP_OR                      shift, and go to state 44
+    DELIM_CURLY_RIGHT_BRACKET  shift, and go to state 160
+    OP_MUL                     shift, and go to state 45
+    OP_DIV                     shift, and go to state 46
+    OP_MOD                     shift, and go to state 47
+    OP_ADD                     shift, and go to state 48
+    OP_SUB                     shift, and go to state 49
+    OP_EQUAL                   shift, and go to state 50
+    OP_NOT_EQUAL               shift, and go to state 51
+    OP_GREATER_THAN            shift, and go to state 52
+    OP_GREATER_EQUAL_THAN      shift, and go to state 53
+    OP_LESS_EQUAL_THAN         shift, and go to state 54
+
+
+State 149
+
+   12 epilogue: KW_RETURN DELIM_SEMICOLON .
+
+    $default  reduce using rule 12 (epilogue)
+
+
+State 150
+
+   13 epilogue: KW_RETURN expr . DELIM_SEMICOLON
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                 shift, and go to state 43
+    OP_OR                  shift, and go to state 44
+    DELIM_SEMICOLON        shift, and go to state 161
+    OP_MUL                 shift, and go to state 45
+    OP_DIV                 shift, and go to state 46
+    OP_MOD                 shift, and go to state 47
+    OP_ADD                 shift, and go to state 48
+    OP_SUB                 shift, and go to state 49
+    OP_EQUAL               shift, and go to state 50
+    OP_NOT_EQUAL           shift, and go to state 51
+    OP_GREATER_THAN        shift, and go to state 52
+    OP_GREATER_EQUAL_THAN  shift, and go to state 53
+    OP_LESS_EQUAL_THAN     shift, and go to state 54
+
+
+State 151
+
+    1 program: decl_list KW_FUNCTION KW_START DELIM_RIGHT_PARANTHESIS parameter_decl_list_main DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET .
+
+    $default  reduce using rule 1 (program)
+
+
+State 152
+
+    2 body: body statements .
+
+    $default  reduce using rule 2 (body)
+
+
+State 153
+
+    6 statements: expr DELIM_SEMICOLON .
+
+    $default  reduce using rule 6 (statements)
+
+
+State 154
+
+   39 const_rule: const_decl_id OP_ASSIGN DELIM_RIGHT_PARANTHESIS parameter_decl_list DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET . DELIM_SEMICOLON
+
+    DELIM_SEMICOLON  shift, and go to state 162
+
+
+State 155
+
+    5 statements: IDENT OP_ASSIGN expr . DELIM_SEMICOLON
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                 shift, and go to state 43
+    OP_OR                  shift, and go to state 44
+    DELIM_SEMICOLON        shift, and go to state 163
+    OP_MUL                 shift, and go to state 45
+    OP_DIV                 shift, and go to state 46
+    OP_MOD                 shift, and go to state 47
+    OP_ADD                 shift, and go to state 48
+    OP_SUB                 shift, and go to state 49
+    OP_EQUAL               shift, and go to state 50
+    OP_NOT_EQUAL           shift, and go to state 51
+    OP_GREATER_THAN        shift, and go to state 52
+    OP_GREATER_EQUAL_THAN  shift, and go to state 53
+    OP_LESS_EQUAL_THAN     shift, and go to state 54
+
+
+State 156
+
+    2 body: . body statements
+    3     | . statements
+    4 statements: . KW_VAR var_decl_body
+    5           | . IDENT OP_ASSIGN expr DELIM_SEMICOLON
+    6           | . expr DELIM_SEMICOLON
+    7           | . KW_WHILE expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+    8           | . if_statement
+    9           | . epilogue
+   10 if_statement: . KW_IF expr body KW_ELSE DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   11             | . KW_IF expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   11             | KW_IF expr DELIM_CURLY_RIGHT_BRACKET . body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   12 epilogue: . KW_RETURN DELIM_SEMICOLON
+   13         | . KW_RETURN expr DELIM_SEMICOLON
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 134
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    KW_VAR                   shift, and go to state 135
+    KW_IF                    shift, and go to state 136
+    KW_WHILE                 shift, and go to state 137
+    OP_NOT                   shift, and go to state 14
+    KW_RETURN                shift, and go to state 138
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    body          go to state 164
+    statements    go to state 140
+    if_statement  go to state 141
+    epilogue      go to state 142
+    expr          go to state 143
+
+
+State 157
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   68     | expr OP_ADD . expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   70     | OP_ADD . expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 165
+
+
+State 158
+
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   69     | expr OP_SUB . expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   71     | OP_SUB . expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 35
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    OP_NOT                   shift, and go to state 14
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    expr  go to state 166
+
+
+State 159
+
+    2 body: body . statements
+    4 statements: . KW_VAR var_decl_body
+    5           | . IDENT OP_ASSIGN expr DELIM_SEMICOLON
+    6           | . expr DELIM_SEMICOLON
+    7           | . KW_WHILE expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+    8           | . if_statement
+    9           | . epilogue
+   10 if_statement: . KW_IF expr body KW_ELSE DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   10             | KW_IF expr body . KW_ELSE DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   11             | . KW_IF expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   12 epilogue: . KW_RETURN DELIM_SEMICOLON
+   13         | . KW_RETURN expr DELIM_SEMICOLON
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 134
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    KW_VAR                   shift, and go to state 135
+    KW_IF                    shift, and go to state 136
+    KW_ELSE                  shift, and go to state 167
+    KW_WHILE                 shift, and go to state 137
+    OP_NOT                   shift, and go to state 14
+    KW_RETURN                shift, and go to state 138
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    statements    go to state 152
+    if_statement  go to state 141
+    epilogue      go to state 142
+    expr          go to state 143
+
+
+State 160
+
+    2 body: . body statements
+    3     | . statements
+    4 statements: . KW_VAR var_decl_body
+    5           | . IDENT OP_ASSIGN expr DELIM_SEMICOLON
+    6           | . expr DELIM_SEMICOLON
+    7           | . KW_WHILE expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+    7           | KW_WHILE expr DELIM_CURLY_RIGHT_BRACKET . body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+    8           | . if_statement
+    9           | . epilogue
+   10 if_statement: . KW_IF expr body KW_ELSE DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   11             | . KW_IF expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   12 epilogue: . KW_RETURN DELIM_SEMICOLON
+   13         | . KW_RETURN expr DELIM_SEMICOLON
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 134
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    KW_VAR                   shift, and go to state 135
+    KW_IF                    shift, and go to state 136
+    KW_WHILE                 shift, and go to state 137
+    OP_NOT                   shift, and go to state 14
+    KW_RETURN                shift, and go to state 138
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    body          go to state 168
+    statements    go to state 140
+    if_statement  go to state 141
+    epilogue      go to state 142
+    expr          go to state 143
+
+
+State 161
+
+   13 epilogue: KW_RETURN expr DELIM_SEMICOLON .
+
+    $default  reduce using rule 13 (epilogue)
+
+
+State 162
+
+   39 const_rule: const_decl_id OP_ASSIGN DELIM_RIGHT_PARANTHESIS parameter_decl_list DELIM_LEFT_PARANTHESIS DELIM_COLON type_spec OP_LESS_EQUAL_THAN DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON .
+
+    $default  reduce using rule 39 (const_rule)
+
+
+State 163
+
+    5 statements: IDENT OP_ASSIGN expr DELIM_SEMICOLON .
+
+    $default  reduce using rule 5 (statements)
+
+
+State 164
+
+    2 body: body . statements
+    4 statements: . KW_VAR var_decl_body
+    5           | . IDENT OP_ASSIGN expr DELIM_SEMICOLON
+    6           | . expr DELIM_SEMICOLON
+    7           | . KW_WHILE expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+    8           | . if_statement
+    9           | . epilogue
+   10 if_statement: . KW_IF expr body KW_ELSE DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   11             | . KW_IF expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   11             | KW_IF expr DELIM_CURLY_RIGHT_BRACKET body . DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   12 epilogue: . KW_RETURN DELIM_SEMICOLON
+   13         | . KW_RETURN expr DELIM_SEMICOLON
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                     shift, and go to state 134
+    STRING                    shift, and go to state 12
+    NUMBER                    shift, and go to state 13
+    KW_VAR                    shift, and go to state 135
+    KW_IF                     shift, and go to state 136
+    KW_WHILE                  shift, and go to state 137
+    OP_NOT                    shift, and go to state 14
+    KW_RETURN                 shift, and go to state 138
+    BOOLEAN_TRUE              shift, and go to state 15
+    BOOLEAN_FALSE             shift, and go to state 16
+    DELIM_CURLY_LEFT_BRACKET  shift, and go to state 169
+    DELIM_RIGHT_PARANTHESIS   shift, and go to state 17
+    OP_ADD                    shift, and go to state 18
+    OP_SUB                    shift, and go to state 19
+
+    statements    go to state 152
+    if_statement  go to state 141
+    epilogue      go to state 142
+    expr          go to state 143
+
+
+State 165
+
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   68     | expr OP_ADD expr .  [IDENT, STRING, NUMBER, KW_VAR, KW_IF, KW_WHILE, OP_NOT, KW_RETURN, BOOLEAN_TRUE, BOOLEAN_FALSE, DELIM_CURLY_RIGHT_BRACKET, DELIM_RIGHT_PARANTHESIS, OP_MUL, OP_DIV, OP_MOD, OP_ADD, OP_SUB]
+   69     | expr . OP_SUB expr
+   70     | OP_ADD expr .  [DELIM_SEMICOLON, OP_MUL, OP_DIV, OP_MOD, OP_ADD, OP_SUB]
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                 shift, and go to state 43
+    OP_OR                  shift, and go to state 44
+    OP_EQUAL               shift, and go to state 50
+    OP_NOT_EQUAL           shift, and go to state 51
+    OP_GREATER_THAN        shift, and go to state 52
+    OP_GREATER_EQUAL_THAN  shift, and go to state 53
+    OP_LESS_EQUAL_THAN     shift, and go to state 54
+
+    DELIM_SEMICOLON  reduce using rule 70 (expr)
+    OP_MUL           reduce using rule 68 (expr)
+    OP_MUL           [reduce using rule 70 (expr)]
+    OP_DIV           reduce using rule 68 (expr)
+    OP_DIV           [reduce using rule 70 (expr)]
+    OP_MOD           reduce using rule 68 (expr)
+    OP_MOD           [reduce using rule 70 (expr)]
+    OP_ADD           reduce using rule 68 (expr)
+    OP_ADD           [reduce using rule 70 (expr)]
+    OP_SUB           reduce using rule 68 (expr)
+    OP_SUB           [reduce using rule 70 (expr)]
+    $default         reduce using rule 68 (expr)
+
+    Conflict between rule 68 and token OP_AND resolved as shift (OP_ADD < OP_AND).
+    Conflict between rule 68 and token OP_OR resolved as shift (OP_ADD < OP_OR).
+    Conflict between rule 68 and token OP_MUL resolved as reduce (OP_MUL < OP_ADD).
+    Conflict between rule 68 and token OP_DIV resolved as reduce (OP_DIV < OP_ADD).
+    Conflict between rule 68 and token OP_MOD resolved as reduce (OP_MOD < OP_ADD).
+    Conflict between rule 68 and token OP_ADD resolved as reduce (%left OP_ADD).
+    Conflict between rule 68 and token OP_SUB resolved as reduce (%left OP_SUB).
+    Conflict between rule 68 and token OP_EQUAL resolved as shift (OP_ADD < OP_EQUAL).
+    Conflict between rule 68 and token OP_NOT_EQUAL resolved as shift (OP_ADD < OP_NOT_EQUAL).
+    Conflict between rule 68 and token OP_GREATER_THAN resolved as shift (OP_ADD < OP_GREATER_THAN).
+    Conflict between rule 68 and token OP_GREATER_EQUAL_THAN resolved as shift (OP_ADD < OP_GREATER_EQUAL_THAN).
+    Conflict between rule 68 and token OP_LESS_EQUAL_THAN resolved as shift (OP_ADD < OP_LESS_EQUAL_THAN).
+    Conflict between rule 70 and token OP_AND resolved as shift (PREFIX < OP_AND).
+    Conflict between rule 70 and token OP_OR resolved as shift (PREFIX < OP_OR).
+    Conflict between rule 70 and token OP_EQUAL resolved as shift (PREFIX < OP_EQUAL).
+    Conflict between rule 70 and token OP_NOT_EQUAL resolved as shift (PREFIX < OP_NOT_EQUAL).
+    Conflict between rule 70 and token OP_GREATER_THAN resolved as shift (PREFIX < OP_GREATER_THAN).
+    Conflict between rule 70 and token OP_GREATER_EQUAL_THAN resolved as shift (PREFIX < OP_GREATER_EQUAL_THAN).
+    Conflict between rule 70 and token OP_LESS_EQUAL_THAN resolved as shift (PREFIX < OP_LESS_EQUAL_THAN).
+
+
+State 166
+
+   65 expr: expr . OP_MUL expr
+   66     | expr . OP_DIV expr
+   67     | expr . OP_MOD expr
+   68     | expr . OP_ADD expr
+   69     | expr . OP_SUB expr
+   69     | expr OP_SUB expr .  [IDENT, STRING, NUMBER, KW_VAR, KW_IF, KW_WHILE, OP_NOT, KW_RETURN, BOOLEAN_TRUE, BOOLEAN_FALSE, DELIM_CURLY_RIGHT_BRACKET, DELIM_RIGHT_PARANTHESIS, OP_MUL, OP_DIV, OP_MOD, OP_ADD, OP_SUB]
+   71     | OP_SUB expr .  [DELIM_SEMICOLON, OP_MUL, OP_DIV, OP_MOD, OP_ADD, OP_SUB]
+   73     | expr . OP_EQUAL expr
+   74     | expr . OP_NOT_EQUAL expr
+   75     | expr . OP_GREATER_THAN expr
+   76     | expr . OP_GREATER_EQUAL_THAN expr
+   77     | expr . OP_LESS_EQUAL_THAN expr
+   78     | expr . OP_AND expr
+   79     | expr . OP_OR expr
+
+    OP_AND                 shift, and go to state 43
+    OP_OR                  shift, and go to state 44
+    OP_EQUAL               shift, and go to state 50
+    OP_NOT_EQUAL           shift, and go to state 51
+    OP_GREATER_THAN        shift, and go to state 52
+    OP_GREATER_EQUAL_THAN  shift, and go to state 53
+    OP_LESS_EQUAL_THAN     shift, and go to state 54
+
+    DELIM_SEMICOLON  reduce using rule 71 (expr)
+    OP_MUL           reduce using rule 69 (expr)
+    OP_MUL           [reduce using rule 71 (expr)]
+    OP_DIV           reduce using rule 69 (expr)
+    OP_DIV           [reduce using rule 71 (expr)]
+    OP_MOD           reduce using rule 69 (expr)
+    OP_MOD           [reduce using rule 71 (expr)]
+    OP_ADD           reduce using rule 69 (expr)
+    OP_ADD           [reduce using rule 71 (expr)]
+    OP_SUB           reduce using rule 69 (expr)
+    OP_SUB           [reduce using rule 71 (expr)]
+    $default         reduce using rule 69 (expr)
+
+    Conflict between rule 69 and token OP_AND resolved as shift (OP_SUB < OP_AND).
+    Conflict between rule 69 and token OP_OR resolved as shift (OP_SUB < OP_OR).
+    Conflict between rule 69 and token OP_MUL resolved as reduce (OP_MUL < OP_SUB).
+    Conflict between rule 69 and token OP_DIV resolved as reduce (OP_DIV < OP_SUB).
+    Conflict between rule 69 and token OP_MOD resolved as reduce (OP_MOD < OP_SUB).
+    Conflict between rule 69 and token OP_ADD resolved as reduce (%left OP_ADD).
+    Conflict between rule 69 and token OP_SUB resolved as reduce (%left OP_SUB).
+    Conflict between rule 69 and token OP_EQUAL resolved as shift (OP_SUB < OP_EQUAL).
+    Conflict between rule 69 and token OP_NOT_EQUAL resolved as shift (OP_SUB < OP_NOT_EQUAL).
+    Conflict between rule 69 and token OP_GREATER_THAN resolved as shift (OP_SUB < OP_GREATER_THAN).
+    Conflict between rule 69 and token OP_GREATER_EQUAL_THAN resolved as shift (OP_SUB < OP_GREATER_EQUAL_THAN).
+    Conflict between rule 69 and token OP_LESS_EQUAL_THAN resolved as shift (OP_SUB < OP_LESS_EQUAL_THAN).
+    Conflict between rule 71 and token OP_AND resolved as shift (PREFIX < OP_AND).
+    Conflict between rule 71 and token OP_OR resolved as shift (PREFIX < OP_OR).
+    Conflict between rule 71 and token OP_EQUAL resolved as shift (PREFIX < OP_EQUAL).
+    Conflict between rule 71 and token OP_NOT_EQUAL resolved as shift (PREFIX < OP_NOT_EQUAL).
+    Conflict between rule 71 and token OP_GREATER_THAN resolved as shift (PREFIX < OP_GREATER_THAN).
+    Conflict between rule 71 and token OP_GREATER_EQUAL_THAN resolved as shift (PREFIX < OP_GREATER_EQUAL_THAN).
+    Conflict between rule 71 and token OP_LESS_EQUAL_THAN resolved as shift (PREFIX < OP_LESS_EQUAL_THAN).
+
+
+State 167
+
+   10 if_statement: KW_IF expr body KW_ELSE . DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+
+    DELIM_CURLY_RIGHT_BRACKET  shift, and go to state 170
+
+
+State 168
+
+    2 body: body . statements
+    4 statements: . KW_VAR var_decl_body
+    5           | . IDENT OP_ASSIGN expr DELIM_SEMICOLON
+    6           | . expr DELIM_SEMICOLON
+    7           | . KW_WHILE expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+    7           | KW_WHILE expr DELIM_CURLY_RIGHT_BRACKET body . DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+    8           | . if_statement
+    9           | . epilogue
+   10 if_statement: . KW_IF expr body KW_ELSE DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   11             | . KW_IF expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   12 epilogue: . KW_RETURN DELIM_SEMICOLON
+   13         | . KW_RETURN expr DELIM_SEMICOLON
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                     shift, and go to state 134
+    STRING                    shift, and go to state 12
+    NUMBER                    shift, and go to state 13
+    KW_VAR                    shift, and go to state 135
+    KW_IF                     shift, and go to state 136
+    KW_WHILE                  shift, and go to state 137
+    OP_NOT                    shift, and go to state 14
+    KW_RETURN                 shift, and go to state 138
+    BOOLEAN_TRUE              shift, and go to state 15
+    BOOLEAN_FALSE             shift, and go to state 16
+    DELIM_CURLY_LEFT_BRACKET  shift, and go to state 171
+    DELIM_RIGHT_PARANTHESIS   shift, and go to state 17
+    OP_ADD                    shift, and go to state 18
+    OP_SUB                    shift, and go to state 19
+
+    statements    go to state 152
+    if_statement  go to state 141
+    epilogue      go to state 142
+    expr          go to state 143
+
+
+State 169
+
+   11 if_statement: KW_IF expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET . DELIM_SEMICOLON
+
+    DELIM_SEMICOLON  shift, and go to state 172
+
+
+State 170
+
+    2 body: . body statements
+    3     | . statements
+    4 statements: . KW_VAR var_decl_body
+    5           | . IDENT OP_ASSIGN expr DELIM_SEMICOLON
+    6           | . expr DELIM_SEMICOLON
+    7           | . KW_WHILE expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+    8           | . if_statement
+    9           | . epilogue
+   10 if_statement: . KW_IF expr body KW_ELSE DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   10             | KW_IF expr body KW_ELSE DELIM_CURLY_RIGHT_BRACKET . body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   11             | . KW_IF expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   12 epilogue: . KW_RETURN DELIM_SEMICOLON
+   13         | . KW_RETURN expr DELIM_SEMICOLON
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                    shift, and go to state 134
+    STRING                   shift, and go to state 12
+    NUMBER                   shift, and go to state 13
+    KW_VAR                   shift, and go to state 135
+    KW_IF                    shift, and go to state 136
+    KW_WHILE                 shift, and go to state 137
+    OP_NOT                   shift, and go to state 14
+    KW_RETURN                shift, and go to state 138
+    BOOLEAN_TRUE             shift, and go to state 15
+    BOOLEAN_FALSE            shift, and go to state 16
+    DELIM_RIGHT_PARANTHESIS  shift, and go to state 17
+    OP_ADD                   shift, and go to state 18
+    OP_SUB                   shift, and go to state 19
+
+    body          go to state 173
+    statements    go to state 140
+    if_statement  go to state 141
+    epilogue      go to state 142
+    expr          go to state 143
+
+
+State 171
+
+    7 statements: KW_WHILE expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET . DELIM_SEMICOLON
+
+    DELIM_SEMICOLON  shift, and go to state 174
+
+
+State 172
+
+   11 if_statement: KW_IF expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON .
+
+    $default  reduce using rule 11 (if_statement)
+
+
+State 173
+
+    2 body: body . statements
+    4 statements: . KW_VAR var_decl_body
+    5           | . IDENT OP_ASSIGN expr DELIM_SEMICOLON
+    6           | . expr DELIM_SEMICOLON
+    7           | . KW_WHILE expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+    8           | . if_statement
+    9           | . epilogue
+   10 if_statement: . KW_IF expr body KW_ELSE DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   10             | KW_IF expr body KW_ELSE DELIM_CURLY_RIGHT_BRACKET body . DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   11             | . KW_IF expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON
+   12 epilogue: . KW_RETURN DELIM_SEMICOLON
+   13         | . KW_RETURN expr DELIM_SEMICOLON
+   55 expr: . NUMBER
+   56     | . IDENT
+   57     | . STRING
+   58     | . IDENT DELIM_RIGHT_BRACKET expr DELIM_LEFT_BRACKET
+   59     | . DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   60     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_LEFT_PARANTHESIS
+   61     | . IDENT DELIM_RIGHT_PARANTHESIS expr DELIM_COMMA expr DELIM_LEFT_PARANTHESIS
+   62     | . IDENT DELIM_RIGHT_PARANTHESIS DELIM_LEFT_PARANTHESIS
+   63     | . BOOLEAN_TRUE
+   64     | . BOOLEAN_FALSE
+   65     | . expr OP_MUL expr
+   66     | . expr OP_DIV expr
+   67     | . expr OP_MOD expr
+   68     | . expr OP_ADD expr
+   69     | . expr OP_SUB expr
+   70     | . OP_ADD expr
+   71     | . OP_SUB expr
+   72     | . OP_NOT expr
+   73     | . expr OP_EQUAL expr
+   74     | . expr OP_NOT_EQUAL expr
+   75     | . expr OP_GREATER_THAN expr
+   76     | . expr OP_GREATER_EQUAL_THAN expr
+   77     | . expr OP_LESS_EQUAL_THAN expr
+   78     | . expr OP_AND expr
+   79     | . expr OP_OR expr
+
+    IDENT                     shift, and go to state 134
+    STRING                    shift, and go to state 12
+    NUMBER                    shift, and go to state 13
+    KW_VAR                    shift, and go to state 135
+    KW_IF                     shift, and go to state 136
+    KW_WHILE                  shift, and go to state 137
+    OP_NOT                    shift, and go to state 14
+    KW_RETURN                 shift, and go to state 138
+    BOOLEAN_TRUE              shift, and go to state 15
+    BOOLEAN_FALSE             shift, and go to state 16
+    DELIM_CURLY_LEFT_BRACKET  shift, and go to state 175
+    DELIM_RIGHT_PARANTHESIS   shift, and go to state 17
+    OP_ADD                    shift, and go to state 18
+    OP_SUB                    shift, and go to state 19
+
+    statements    go to state 152
+    if_statement  go to state 141
+    epilogue      go to state 142
+    expr          go to state 143
+
+
+State 174
+
+    7 statements: KW_WHILE expr DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON .
+
+    $default  reduce using rule 7 (statements)
+
+
+State 175
+
+   10 if_statement: KW_IF expr body KW_ELSE DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET . DELIM_SEMICOLON
+
+    DELIM_SEMICOLON  shift, and go to state 176
+
+
+State 176
+
+   10 if_statement: KW_IF expr body KW_ELSE DELIM_CURLY_RIGHT_BRACKET body DELIM_CURLY_LEFT_BRACKET DELIM_SEMICOLON .
+
+    $default  reduce using rule 10 (if_statement)
